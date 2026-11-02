@@ -42,7 +42,7 @@ go.work.sum
 *.env
 *.json
 *.yaml
-*.yml
+# *.yml
 
 # Editor/IDE
 # .idea/

@@ -27,9 +27,9 @@ Buat struktur folder sesuai standar AGENTS.md (Section 5):
 
 ### 1.3 Infrastructure (Docker)
 
-- [ ] Buat docker-compose.yml dengan image postgres:alpine.
-- [ ] Konfigurasi environment variable untuk DB (User, Password, DB Name).
-- [ ] Verifikasi: Jalankan docker compose up -d dan pastikan DB bisa diakses via tool external (pgAdmin/DBeaver).
+- [x] Buat docker-compose.yml dengan image postgres:alpine.
+- [x] Konfigurasi environment variable untuk DB (User, Password, DB Name).
+- [x] Verifikasi: Jalankan docker compose up -d dan pastikan DB bisa diakses via tool external (pgAdmin/DBeaver).
 
 ———
 
