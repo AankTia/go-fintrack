@@ -16,14 +16,14 @@ Fokus: Menyiapkan pondasi agar tidak ada konflik path atau dependency di kemudia
 
 Buat struktur folder sesuai standar AGENTS.md (Section 5):
 
-- [ ] cmd/api/main.go (Entry point aplikasi).
-- [ ] internal/handler/ (HTTP parsing & response).
-- [ ] internal/service/ (Business logic).
-- [ ] internal/repository/ (Database queries).
-- [ ] internal/model/ (DTOs & DB entities).
-- [ ] internal/platform/ (DB connection, config loader).
-- [ ] internal/middleware/ (Auth, logging).
-- [ ] migrations/ (SQL migration files).
+- [x] cmd/api/main.go (Entry point aplikasi).
+- [x] internal/handler/ (HTTP parsing & response).
+- [x] internal/service/ (Business logic).
+- [x] internal/repository/ (Database queries).
+- [x] internal/model/ (DTOs & DB entities).
+- [x] internal/platform/ (DB connection, config loader).
+- [x] internal/middleware/ (Auth, logging).
+- [x] migrations/ (SQL migration files).
 
 ### 1.3 Infrastructure (Docker)
 
