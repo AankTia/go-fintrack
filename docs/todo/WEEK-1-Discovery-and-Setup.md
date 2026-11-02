@@ -50,9 +50,9 @@ Fokus: Menghubungkan aplikasi Go dengan database secara aman dan terstruktur.
 
 ### 2.2 Database Connection Pool
 
-- [ ] Install driver PostgreSQL (contoh: jackc/pgx atau lib/pq).
-- [ ] Implementasi koneksi singleton/pool di internal/platform/database.go.
-- [ ] Tambahkan logic Ping saat startup untuk memastikan DB ready sebelum server jalan.
+- [x] Install driver PostgreSQL (contoh: jackc/pgx atau lib/pq).
+- [x] Implementasi koneksi singleton/pool di internal/platform/database.go.
+- [x] Tambahkan logic Ping saat startup untuk memastikan DB ready sebelum server jalan.
 
 ### 2.3 Migration Setup
 

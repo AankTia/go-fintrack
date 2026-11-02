@@ -16,6 +16,17 @@ func main() {
 		log.Fatalf("Could not load config: %v", err)
 	}
 
+	// Connect ke Database
+	if err := platform.Connect(); err != nil {
+		log.Fatalf("Could not connect to DB: %v", err)
+	}
+
+	// Verifikasi koneksi dengan Ping
+	if err := platform.Ping(); err != nil {
+		log.Fatalf("Database not ready: %v", err)
+	}
+	fmt.Println("Database connection verified!")
+
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
