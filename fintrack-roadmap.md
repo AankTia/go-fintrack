@@ -2,15 +2,15 @@
 
 ## 📋 Overview
 
-| Item         | Detail                                   |
-| ------------ | ---------------------------------------- |
-| **Project**  | FinTrack – Personal Finance SaaS         |
-| **Timeline** | 8 Minggu (1-2 jam/hari = 160 jam total)  |
-| **Backend**  | Go (REST API) + PostgreSQL               |
-| **Frontend** | Next.js App Router + TypeScript          |
-| **Goal**     | MVP launch + Learning portfolio showcase |
+| Item     | Detail                                    |
+| -------- | ----------------------------------------- |
+| Project  | FinTrack – Personal Finance SaaS          |
+| Timeline | 8 Weeks (1-2 hours/day = 160 hours total) |
+| Backend  | Go (REST API) + PostgreSQL                |
+| Frontend | Next.js App Router + TypeScript           |
+| Goal     | MVP launch + Learning portfolio showcase  |
 
----
+———
 
 ## 🎯 WEEK 1: Discovery & Setup (Day 1-3)
 
@@ -27,25 +27,25 @@
 
 #### Day 2: Configuration & Database Connection
 
-| Task                                               | Time   |
-| -------------------------------------------------- | ------ |
-| Create config loader (env vars)                    | 25 min |
-| Setup database connection pool                     | 30 min |
-| Setup migration tool (misal: golang-migrate/goose) | 20 min |
-| Write first migration (table structure)            | 40 min |
-| Migrate to database                                | 10 min |
+| Task                                              | Time   |
+| ------------------------------------------------- | ------ |
+| Create config loader (env vars)                   | 25 min |
+| Setup database connection pool                    | 30 min |
+| Setup migration tool (e.g., golang-migrate/goose) | 20 min |
+| Write first migration (table structure)           | 40 min |
+| Migrate to database                               | 10 min |
 
 #### Day 3: Basic REST API (Hello World)
 
-| Task                                       | Time   |
-| ------------------------------------------ | ------ |
-| Create HTTP server with `net/http`         | 20 min |
-| Define API routes (chi or gin)             | 30 min |
-| Implement `/api/v1/auth/register` endpoint | 45 min |
-| Implement `/api/v1/auth/login` endpoint    | 50 min |
-| Test with Postman collection or curl       | 20 min |
+| Task                                     | Time   |
+| ---------------------------------------- | ------ |
+| Create HTTP server with net/http         | 20 min |
+| Define API routes (chi or gin)           | 30 min |
+| Implement /api/v1/auth/register endpoint | 45 min |
+| Implement /api/v1/auth/login endpoint    | 50 min |
+| Test with Postman collection or curl     | 20 min |
 
----
+———
 
 ## 🎯 WEEK 2: Database Design & Core Entities (Day 4-6)
 
@@ -78,7 +78,7 @@
 | Create Category repository (DB queries)  | 25 min |
 | Write unit tests for business logic      | 20 min |
 
----
+———
 
 ## 🎯 WEEK 3: Transaction Core (Day 7-9)
 
@@ -110,7 +110,7 @@
 | DELETE endpoint                        | 30 min |
 | Verify data integrity after deletion   | 15 min |
 
----
+———
 
 ## 🎯 WEEK 4: Dashboard & Analytics (Day 10-12)
 
@@ -139,7 +139,7 @@
 | Rate limiting for auth endpoints           | 25 min |
 | Load test dashboard aggregation            | 20 min |
 
----
+———
 
 ## 🎯 WEEK 5: Budget Management (Day 13-15)
 
@@ -167,7 +167,7 @@
 | Create API endpoint for budget adjustments       | 25 min |
 | Write integration tests for all budget scenarios | 30 min |
 
----
+———
 
 ## 🎯 WEEK 6: Frontend Integration (Day 16-18)
 
@@ -197,7 +197,7 @@
 | Create Charts using Recharts  | 35 min |
 | Build Budget management UI    | 45 min |
 
----
+———
 
 ## 🎯 WEEK 7: Testing, Polish & Optimization (Day 19-21)
 
@@ -205,11 +205,11 @@
 
 #### Day 19: Unit Tests (Backend)
 
-| Task                                      | Time   |
-| ----------------------------------------- | ------ |
-| Write unit tests for service layer        | 60 min |
-| Test repository methods with `*testing.T` | 30 min |
-| Run all tests locally                     | 15 min |
+| Task                                         | Time   |
+| -------------------------------------------- | ------ |
+| Write unit tests for service layer           | 60 min |
+| Test repository methods with **\*testing.T** | 30 min |
+| Run all tests locally                        | 15 min |
 
 #### Day 20: E2E Tests (Playwright)
 
@@ -228,7 +228,7 @@
 | Optimize database queries (indexes) | 25 min |
 | Review security checklist           | 30 min |
 
----
+———
 
 ## 🎯 WEEK 8: Deployment & Launch (Day 22-25)
 
@@ -266,7 +266,7 @@
 | Deploy MVP to hosting platform     | 60 min |
 | Document portfolio case study      | 30 min |
 
----
+———
 
 ## 📊 Progress Tracking Summary
 
@@ -281,20 +281,20 @@
 | W7   | Quality & Polish     | All tests pass, code formatted, secure    |
 | W8   | Deployment & Launch  | MVP live + documentation complete         |
 
----
+———
 
 ## 🎓 Learning Goals (Portfolio Value)
 
 ### What You'll Learn & Demonstrate:
 
-1. ✅ **Go Architecture**: Clean architecture with proper separation of concerns
-2. ✅ **Database Mastery**: PostgreSQL migrations, indexing, query optimization
-3. ✅ **Web Security**: Authentication, authorization, rate limiting, CORS
-4. ✅ **Full-Stack Integration**: Backend + frontend communication patterns
-5. ✅ **Testing Excellence**: Unit tests, integration tests, E2E tests with Playwright
-6. ✅ **DevOps Skills**: Docker, CI/CD pipelines, deployment strategy
+1. ✅ **Go Architecture:** Clean architecture with proper separation of concerns
+2. ✅ **Database Mastery:** PostgreSQL migrations, indexing, query optimization
+3. ✅ **Web Security:** Authentication, authorization, rate limiting, CORS
+4. ✅ **Full-Stack Integration:** Backend + frontend communication patterns
+5. ✅ **Testing Excellence:** Unit tests, integration tests, E2E tests with Playwright
+6. ✅ **DevOps Skills:** Docker, CI/CD pipelines, deployment strategy
 
----
+———
 
 ## 🎯 Definition of Done (MVP Complete)
 
@@ -313,7 +313,7 @@ FinTrack will be considered MVP-ready when ALL these criteria are met:
 - [ ] Application deployed and accessible via demo URL
 - [ ] README and API documentation clear & complete
 
----
+———
 
 ## 🔑 Key Constraints & Guidelines
 
@@ -337,12 +337,12 @@ FinTrack will be considered MVP-ready when ALL these criteria are met:
 
 ### Technical Constraints
 
-- **Go**: REST API architecture with proper separation (handler/service/repository/model)
-- **Database**: PostgreSQL with migrations and test isolation
-- **Frontend**: Next.js App Router + TypeScript + Tailwind CSS + shadcn/ui
-- **Validation**: Zod on frontend, Go validator library on backend
-- **Testing**: TanStack Query for server state, Playwright for E2E
+- Go: REST API architecture with proper separation (handler/service/repository/model)
+- Database: PostgreSQL with migrations and test isolation
+- Frontend: Next.js App Router + TypeScript + Tailwind CSS + shadcn/ui
+- Validation: Zod on frontend, Go validator library on backend
+- Testing: TanStack Query for server state, Playwright for E2E
 
----
+———
 
 _Document generated for FinTrack MVP Planning – 8 Week Development Timeline_

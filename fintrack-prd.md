@@ -2,81 +2,81 @@
 
 ## FinTrack — Personal Finance SaaS
 
-**Status:** Draft MVP  
-**Versi:** 1.0  
-**Tanggal:** 27 Oktober 2026  
-**Pemilik produk:** FinTrack Team  
-**Target MVP:** 8 minggu, dengan waktu pengembangan 1–2 jam per hari
+**Status:** Draft MVP
+**Version:** 1.0
+**Date:** October 27, 2026
+**Product Owner:** FinTrack Team
+**MVP Target:** 8 weeks, with development time of 1–2 hours per day
 
-## 1. Ringkasan Eksekutif
+## 1. Executive Summary
 
-FinTrack adalah aplikasi SaaS untuk membantu individu dan rumah tangga kecil mencatat transaksi, memahami cash flow, mengatur anggaran, dan mengambil keputusan finansial dengan lebih mudah.
+FinTrack is a SaaS application designed to help individuals and small households record transactions, understand cash flow, manage budgets, and make financial decisions more easily.
 
-Versi MVP berfokus pada pengalaman inti yang sederhana: pengguna membuat akun, menambahkan akun keuangan, mencatat pemasukan/pengeluaran, lalu melihat ringkasan kondisi keuangannya melalui dashboard.
+The MVP version focuses on a simple core experience: users create an account, add financial accounts, record income/expenses, and view a summary of their financial condition via a dashboard.
 
-FinTrack juga dirancang sebagai project portfolio end-to-end untuk menunjukkan kemampuan membangun produk nyata menggunakan Next.js, Go, dan PostgreSQL.
+FinTrack is also designed as an end-to-end portfolio project to demonstrate the ability to build a real product using Next.js, Go, and PostgreSQL
 
-## 2. Latar Belakang dan Masalah
+## 2. Background and Problem
 
-Banyak orang ingin mengatur keuangan, tetapi:
+Many people want to manage their finances, but:
 
-- Pencatatan transaksi sering dilakukan secara tidak konsisten.
-- Aplikasi keuangan yang ada terasa terlalu kompleks.
-- Pengguna sulit memahami kategori pengeluaran terbesar.
-- Pengguna tidak memiliki gambaran cash flow bulanan yang jelas.
-- Spreadsheet fleksibel, tetapi membutuhkan setup dan pemeliharaan manual.
+- Transaction recording is often inconsistent.
+- Existing financial apps feel too complex.
+- Users find it difficult to identify their largest spending categories.
+- Users lack a clear overview of their monthly cash flow.
+- Spreadsheets are flexible but require manual setup and maintenance.
 
-### Problem statement
+### Problem Statement
 
-> Pengguna membutuhkan cara yang sederhana dan cepat untuk mencatat transaksi serta memahami ke mana uang mereka pergi tanpa harus menggunakan aplikasi akuntansi yang kompleks.
+> Users need a simple and fast way to record transactions and understand where their money is going without having to use complex accounting software.
 
-## 3. Tujuan Produk
+## 3. Product Goals
 
-### Tujuan utama
+### Primary Goals
 
-- Membantu pengguna mencatat transaksi dalam waktu singkat.
-- Memberikan gambaran saldo dan cash flow yang mudah dipahami.
-- Membantu pengguna mengontrol pengeluaran melalui budget sederhana.
-- Membangun fondasi produk yang dapat dikembangkan menjadi SaaS berbayar.
+- Help users record transactions quickly.
+- Provide an easy-to-understand overview of balances and cash flow.
+- Help users control spending through simple budgeting.
+- Build a product foundation that can be evolved into a paid SaaS.
 
-### Tujuan pembelajaran dan portfolio
+### Learning and Portfolio Goals
 
-- Menerapkan Go untuk backend REST API yang terstruktur dan teruji.
-- Membangun frontend Next.js yang responsive dan usable.
-- Memahami autentikasi, authorization, validasi, migration, testing, dan deployment.
-- Mendemonstrasikan pertimbangan security untuk data finansial.
+- Implement Go for a structured and tested REST API backend.
+- Build a responsive and usable Next.js frontend.
+- Understand authentication, authorization, validation, migration, testing, and deployment.
+- Demonstrate security considerations for financial data.
 
-### Bukan tujuan MVP
+### Out of MVP Scope
 
-- Menjadi aplikasi akuntansi profesional.
-- Mengintegrasikan rekening bank secara otomatis.
-- Menyediakan nasihat investasi atau finansial.
-- Menyimpan data kartu, credential bank, atau informasi pembayaran sensitif.
-- Menyediakan rekonsiliasi rekening otomatis.
+- Becoming a professional accounting application.
+- Automatically integrating bank accounts.
+- Providing investment or financial advice.
+- Storing card data, bank credentials, or sensitive payment information.
+- Providing automatic account reconciliation
 
-## 4. Target Pengguna
+## 4. Target Users
 
-### Persona utama: pekerja muda atau freelancer
+### Primary Persona: Young Professionals or Freelancers
 
-- Memiliki pemasukan dari satu atau beberapa sumber.
-- Menggunakan rekening bank dan e-wallet.
-- Ingin tahu pengeluaran terbesar setiap bulan.
-- Tidak ingin mempelajari software akuntansi.
-- Bersedia mencoba produk gratis yang mudah digunakan.
+- Have income from one or several sources.
+- Use bank accounts and e-wallets.
+- Want to know their biggest expenses each month.
+- Do not want to learn accounting software.
+- Willing to try a free, easy-to-use product.
 
-### Persona sekunder: rumah tangga kecil
+### Secondary Persona: Small Households
 
-- Membutuhkan gambaran pengeluaran bersama.
-- Saat MVP, dapat menggunakan satu akun bersama secara manual.
-- Fitur multi-user dan role akan dipertimbangkan setelah validasi awal.
+- Need an overview of shared expenses.
+- During MVP, can manually use one shared account.
+- Multi-user and role features will be considered after initial validation.
 
 ## 5. Jobs to Be Done
 
-- Ketika menerima pemasukan, saya ingin mencatatnya agar saldo saya akurat.
-- Ketika melakukan pembelian, saya ingin mencatatnya dengan cepat agar tidak lupa.
-- Ketika mengevaluasi bulan berjalan, saya ingin melihat kategori pengeluaran terbesar.
-- Ketika membuat rencana bulanan, saya ingin menetapkan batas pengeluaran per kategori.
-- Ketika akan mengambil keputusan finansial, saya ingin melihat kondisi cash flow terkini.
+- When receiving income, I want to record it so that my balance is accurate.
+- When making a purchase, I want to record it quickly so I don't forget.
+- When evaluating the current month, I want to see the largest spending categories.
+- When making a monthly plan, I want to set spending limits per category.
+- When making a financial decision, I want to see the current cash flow status.
 
 ## 6. User Journey MVP
 
@@ -84,190 +84,190 @@ Banyak orang ingin mengatur keuangan, tetapi:
 Landing page
   → Register
   → Login
-  → Onboarding singkat
-  → Buat akun keuangan
-  → Tambah kategori/transaksi pertama
-  → Lihat dashboard
-  → Tinjau budget dan histori transaksi
+  → Brief onboarding
+  → Create financial account
+  → Add first category/transaction
+  → View dashboard
+  → Review budget and transaction history
 ```
 
-### Momen aktivasi
+### Activation Moment
 
-Pengguna dianggap aktif apabila telah:
+A user is considered active if they have:
 
-1. Membuat akun.
-2. Membuat minimal satu akun keuangan.
-3. Mencatat transaksi pertama.
+1. Created an account.
+2. Created at least one financial account.
+3. Recorded their first transaction.
 
-## 7. Ruang Lingkup MVP
+## 7. MVP Scope
 
-### P0 — Wajib tersedia
+### P0 — Mandatory
 
-#### Autentikasi
+#### Authentication
 
-- Registrasi dengan email dan password.
-- Login dan logout.
-- Sesi pengguna yang aman.
-- Endpoint profil pengguna.
-- Pesan error yang jelas tanpa membocorkan informasi sensitif.
+- Registration with email and password.
+- Login and logout.
+- Secure user sessions.
+- User profile endpoint.
+- Clear error messages without leaking sensitive information.
 
-#### Akun keuangan
+#### Financial Accounts
 
-- Membuat akun: cash, bank, e-wallet, atau tipe custom.
-- Melihat daftar akun dan saldo.
-- Mengedit nama akun.
-- Menonaktifkan atau menghapus akun yang belum memiliki transaksi.
+- Create accounts: cash, bank, e-wallet, or custom types.
+- View account list and balances.
+- Edit account names.
+- Deactivate or delete accounts that have no transactions.
 
-#### Kategori
+#### Categories
 
-- Kategori default untuk pemasukan dan pengeluaran.
-- Membuat kategori custom.
-- Mengedit atau menonaktifkan kategori custom.
+- Default categories for income and expenses.
+- Create custom categories.
+- Edit or deactivate custom categories.
 
-#### Transaksi
+#### Transactions
 
-- Mencatat pemasukan atau pengeluaran.
-- Memilih akun dan kategori.
-- Mengisi nominal, tanggal, dan catatan opsional.
-- Melihat daftar transaksi terbaru.
-- Filter berdasarkan tanggal, tipe, akun, dan kategori.
-- Mengedit dan menghapus transaksi.
-- (Out of Scope MVP) Transfer antar akun keuangan (akan diimplementasikan sebagai dua transaksi terpisah: pengeluaran dari akun A dan pemasukan ke akun B).
+- Record income or expenses.
+- Select account and category.
+- Fill in amount, date, and optional notes.
+- View a list of recent transactions.
+- Filter by date, type, account, and category.
+- Edit and delete transactions.
+- (Out of MVP Scope) Transfers between financial accounts (will be implemented as two separate transactions: an expense from Account A and income to Account B).
 
 #### Dashboard
 
-- Total saldo.
-- Total pemasukan pada periode terpilih.
-- Total pengeluaran pada periode terpilih.
+- Total balance.
+- Total income for the selected period.
+- Total expenses for the selected period.
 - Net cash flow.
-- Daftar transaksi terbaru.
-- Breakdown pengeluaran per kategori.
+- List of recent transactions.
+- Expense breakdown per category.
 
 #### Budget
 
-- Menetapkan budget bulanan per kategori pengeluaran.
-- Melihat pemakaian budget.
-- Menampilkan status aman, mendekati batas, atau melebihi batas.
+- Set monthly budgets per expense category.
+- View budget utilization.
+- Display status: safe, approaching limit, or exceeded limit.
 
-### P1 — Setelah MVP awal
+### P1 — After Initial MVP
 
-- Export transaksi ke CSV.
-- Recurring transaction.
+- Export transactions to CSV.
+- Recurring transactions.
 - Household sharing.
-- Tema gelap.
-- Notifikasi email.
-- Target tabungan.
+- Dark theme.
+- Email notifications.
+- Savings targets.
 
-### P2 — Eksplorasi bisnis
+### P2 — Business Exploration
 
-- Import CSV dari bank atau e-wallet.
-- Integrasi open banking.
-- Paket premium dan billing.
-- Laporan PDF.
+- CSV import from banks or e-wallets.
+- Open banking integration.
+- Premium packages and billing.
+- PDF reports.
 - Multi-currency.
-- Insight otomatis.
+- Automated insights.
 
-## 8. Persyaratan Fungsional
+## 8. Functional Requirements
 
-### FR-01 — Registrasi
+### FR-01 — Registration
 
-**Deskripsi:** Pengguna dapat membuat akun baru.
+Description: Users can create a new account.
 
-**Acceptance criteria:**
+Acceptance Criteria:
 
-- [ ] Email wajib diisi dan memiliki format valid.
-- [ ] Email tidak boleh duplikat.
-- [ ] Password memenuhi panjang minimum dan aturan keamanan.
-- [ ] Password disimpan sebagai hash, bukan plaintext.
-- [ ] Setelah berhasil, pengguna dapat login.
-- [ ] Error validasi ditampilkan secara aman dan mudah dipahami.
+- [ ] Email is required and must have a valid format.
+- [ ] Email must be unique.
+- [ ] Password meets minimum length and security rules.
+- [ ] Password is stored as a hash, not plaintext.
+- [ ] After success, the user can login.
+- [ ] Validation errors are displayed securely and are easy to understand.
 
-### FR-02 — Login dan logout
+### FR-02 — Login and Logout
 
-**Acceptance criteria:**
+Acceptance Criteria:
 
-- [ ] Pengguna dapat login dengan kredensial valid.
-- [ ] Kredensial invalid menghasilkan respons generik.
-- [ ] Sesi disimpan menggunakan mekanisme yang aman.
-- [ ] Logout mencabut atau menghapus sesi aktif.
-- [ ] Halaman yang membutuhkan autentikasi tidak dapat diakses tanpa sesi.
+- [ ] Users can login with valid credentials.
+- [ ] Invalid credentials result in a generic response.
+- [ ] Sessions are stored using a secure mechanism.
+- [ ] Logout revokes or deletes the active session.
+- [ ] Pages requiring authentication cannot be accessed without a session.
 
-### FR-03 — Mengelola akun keuangan
+### FR-03 — Manage Financial Accounts
 
-**Acceptance criteria:**
+Acceptance Criteria:
 
-- [ ] Pengguna dapat membuat akun dengan nama, tipe, dan mata uang.
-- [ ] Saldo ditampilkan berdasarkan transaksi yang dimiliki pengguna.
-- [ ] User hanya dapat melihat dan mengubah akun miliknya.
-- [ ] Akun user lain tidak dapat diakses melalui manipulasi ID.
-- [ ] Akun dengan transaksi tidak dihapus secara sembarangan.
+- [ ] Users can create an account with name, type, and currency.
+- [ ] Balance is displayed based on transactions owned by the user.
+- [ ] Users can only view and modify their own accounts.
+- [ ] Other users' accounts cannot be accessed via ID manipulation.
+- [ ] Accounts with transactions cannot be deleted indiscriminately.
 
-### FR-04 — Mengelola transaksi
+### FR-04 — Manage Transactions
 
-**Acceptance criteria:**
+Acceptance Criteria:
 
-- [ ] Pengguna dapat memilih tipe income atau expense.
-- [ ] Nominal harus lebih besar dari nol.
-- [ ] Akun dan kategori harus valid serta dimiliki user.
-- [ ] Tanggal transaksi wajib valid.
-- [ ] Transaksi tersimpan dan muncul di daftar.
-- [ ] Perubahan transaksi memperbarui ringkasan saldo.
-- [ ] User tidak dapat membaca, mengedit, atau menghapus transaksi user lain.
+- [ ] Users can choose between income or expense types.
+- [ ] Amount must be greater than zero.
+- [ ] Account and category must be valid and owned by the user.
+- [ ] Transaction date must be valid.
+- [ ] Transactions are saved and appear in the list.
+- [ ] Transaction changes update the balance summary.
+- [ ] Users cannot read, edit, or delete other users' transactions.
 
 ### FR-05 — Dashboard
 
-**Acceptance criteria:**
+Acceptance Criteria:
 
-- [ ] Dashboard menampilkan periode yang jelas.
-- [ ] Saldo, pemasukan, pengeluaran, dan net cash flow konsisten dengan data transaksi.
-- [ ] Data kosong memiliki empty state yang membantu.
-- [ ] Chart memiliki label yang dapat dipahami.
-- [ ] Dashboard dapat digunakan pada layar mobile.
+- [ ] Dashboard displays a clear period.
+- [ ] Balance, income, expenses, and net cash flow are consistent with transaction data.
+- [ ] Empty data has helpful empty states.
+- [ ] Charts have understandable labels.
+- [ ] Dashboard is usable on mobile screens.
 
 ### FR-06 — Budget
 
-**Acceptance criteria:**
+Acceptance Criteria:
 
-- [ ] Pengguna dapat membuat atau mengubah budget per kategori dan bulan.
-- [ ] Satu user tidak dapat memiliki budget duplikat untuk kategori dan bulan yang sama.
-- [ ] Penggunaan budget dihitung dari transaksi expense pada periode tersebut.
-- [ ] Status budget berubah sesuai penggunaan aktual.
+- [ ] Users can create or modify a budget per category and month.
+- [ ] A user cannot have duplicate budgets for the same category and month.
+- [ ] Budget usage is calculated from expense transactions in that period.
+- [ ] Budget status changes based on actual usage.
 
-## 9. Persyaratan Non-Fungsional
+## 9. Non-Functional Requirements
 
 ### Security
 
-- Password menggunakan Argon2id atau bcrypt.
-- Cookie/session menggunakan konfigurasi aman.
-- Semua endpoint privat memiliki authorization check.
-- Validasi dilakukan di frontend dan backend, dengan backend sebagai sumber kebenaran.
-- Rate limit diterapkan pada login dan endpoint sensitif.
-- Secret tidak disimpan dalam repository.
-- Log tidak mencatat password, token, atau data finansial yang tidak diperlukan.
+- Passwords use Argon2id or bcrypt.
+- Cookies/sessions use secure configurations.
+- All private endpoints have authorization checks.
+- Validation is performed on both frontend and backend, with the backend as the source of truth.
+- Rate limiting is applied to login and sensitive endpoints.
+- Secrets are not stored in the repository.
+- Logs do not record passwords, tokens, or unnecessary financial data.
 
 ### Performance
 
-- Endpoint dashboard merespons cepat untuk dataset MVP.
-- Query transaksi memakai index pada `user_id`, tanggal, akun, dan kategori sesuai kebutuhan.
-- Daftar transaksi menggunakan pagination atau limit.
-- Frontend tidak mengambil data lebih banyak dari yang dibutuhkan.
+- Dashboard endpoints respond quickly for MVP datasets.
+- Transaction queries use indexes on user_id, date, account, and category as needed.
+- Transaction lists use pagination or limits.
+- Frontend does not fetch more data than necessary.
 
 ### Reliability
 
-- Migration database dapat dijalankan berulang dengan aman.
-- Error database ditangani tanpa mematikan seluruh server.
-- Health check tersedia.
-- Backup dan restore database didokumentasikan sebelum production.
+- Database migrations can be run repeatedly and safely.
+- Database errors are handled without crashing the entire server.
+- Health checks are available.
+- Database backup and restore are documented before production.
 
-### Accessibility dan usability
+### Accessibility and Usability
 
-- Form memiliki label yang jelas.
-- Navigasi keyboard dasar berfungsi.
-- Warna tidak menjadi satu-satunya pembeda status.
-- Nominal dan tanggal memiliki format konsisten.
-- Loading, error, dan empty state tersedia.
+- Forms have clear labels.
+- Basic keyboard navigation works.
+- Color is not the only way to distinguish status.
+- Amounts and dates have a consistent format.
+- Loading, error, and empty states are available.
 
-## 10. Model Data Tingkat Tinggi
+## 10. High-Level Data Model
 
 ```text
 User 1 ─── * Account
@@ -279,35 +279,35 @@ User 1 ─── * Budget
 Category 1 ─── * Budget
 ```
 
-### Entitas inti
+### Core Entities
 
-| Entitas | Field penting | Catatan |
+| Entity | Key Fields | Notes |
 |---|---|---|
-| User | id, email, password_hash, created_at | Email unik |
-| Account | id, user_id, name, type, currency, current_balance | Milik satu user, current_balance untuk optimasi query |
-| Category | id, user_id, name, kind | `income` atau `expense` |
-| Transaction | id, user_id, account_id, category_id, amount, kind, occurred_at | Nominal integer/unit terkecil |
-| Budget | id, user_id, category_id, month, limit_amount | Kombinasi user-category-month unik |
-| Session | id, user_id, token_hash, expires_at | Dapat dicabut |
+| User | id, email, password_hash, created_at | Unique email |
+| Account | id, user_id, name, type, currency, current_balance | Owned by one user, current_balance for query optimization |
+| Category | id, user_id, name, kind | income or expense |
+| Transaction | id, user_id, account_id, category_id, amount, kind, occurred_at | Amount as integer/smallest unit |
+| Budget | id, user_id, category_id, month, limit_amount | Unique combination of user-category-month |
+| Session | id, user_id, token_hash, expires_at | Can be revoked |
 
-### Aturan finansial
+### Financial Rules
 
-- Jangan gunakan floating point untuk nominal uang.
-- Gunakan integer unit terkecil untuk MVP IDR.
-- Simpan mata uang secara eksplisit.
-- Gunakan UTC untuk penyimpanan waktu.
-- Semua kalkulasi agregat harus berasal dari data server.
-- Jangan menyimpan credential bank atau nomor kartu.
-- Update saldo akun harus dilakukan secara atomik (menggunakan database transaction) bersamaan dengan pembuatan transaksi untuk menjaga konsistensi data.
+- Do not use floating point for monetary amounts.
+- Use the smallest integer unit for MVP IDR.
+- Store currency explicitly.
+- Use UTC for time storage.
+- All aggregate calculations must originate from server data.
+- Do not store bank credentials or card numbers.
+- Account balance updates must be performed atomically (using database transactions) alongside transaction creation to maintain data consistency.
 
 ## 11. Desain Teknis Tingkat Tinggi
 
 ```text
 Next.js Web
-  ├── Halaman auth
+  ├── Auth Pages
   ├── Dashboard
-  ├── Transaksi
-  ├── Akun
+  ├── Transactions
+  ├── Accounts
   └── Budget
           │ HTTPS/JSON
           ▼
@@ -319,21 +319,22 @@ Go REST API
   └── PostgreSQL
 ```
 
-### Keputusan Library Frontend
 
-- Next.js App Router dan TypeScript sebagai fondasi aplikasi.
-- Tailwind CSS untuk styling responsive.
-- shadcn/ui untuk komponen UI yang source code-nya berada di repository dan dapat dikustomisasi.
-- lucide-react untuk icon.
-- React Hook Form dan Zod dengan `@hookform/resolvers` untuk form serta validasi.
-- TanStack Query untuk fetching, caching, mutation, dan invalidation data dari Go API.
-- Recharts untuk chart cash flow dan breakdown kategori.
-- date-fns untuk format tanggal dan perhitungan periode.
-- Playwright untuk smoke test dan end-to-end flow.
+### Frontend Library Decisions
 
-Untuk MVP, belum perlu menambahkan Redux atau Zustand. Gunakan TanStack Query untuk server state dan React state untuk state lokal komponen.
+- Next.js App Router and TypeScript as the application foundation.
+- Tailwind CSS for responsive styling.
+- shadcn/ui for UI components that reside in the repository and are customizable.
+- lucide-react for icons.
+- React Hook Form and Zod with @hookform/resolvers for forms and validation.
+- TanStack Query for fetching, caching, mutation, and data invalidation from the Go API.
+- Recharts for cash flow charts and category breakdowns.
+- date-fns for date formatting and period calculations.
+- Playwright for smoke tests and end-to-end flows.
 
-### Kontrak API minimum
+For MVP, Redux or Zustand are not yet needed. Use TanStack Query for server state and React state for local component state.
+
+### Minimum API Contract
 
 ```text
 POST   /api/v1/auth/register
@@ -354,16 +355,16 @@ GET    /api/v1/budgets?month=YYYY-MM
 PUT    /api/v1/budgets/:categoryID
 ```
 
-## 12. UX dan Halaman
+## 12. UX and Pages
 
-### Halaman publik
+### Public Pages
 
 - Landing page.
 - Login.
 - Register.
-- Privacy/security note sederhana.
+- Simple privacy/security note.
 
-### Halaman privat
+### Private Pages
 
 - Dashboard.
 - Transactions.
@@ -372,84 +373,85 @@ PUT    /api/v1/budgets/:categoryID
 - Budgets.
 - Settings/profile.
 
-### Prinsip UX
+### UX Principles
 
-- Tambah transaksi harus dapat dilakukan dalam beberapa langkah.
-- Default tanggal adalah hari ini.
-- Tipe transaksi dibedakan dengan label dan ikon, bukan warna saja.
-- Nominal selalu memiliki format mata uang yang jelas.
-- Setelah menyimpan transaksi, pengguna mendapat konfirmasi dan melihat data terbaru.
-- Empty state mengarahkan pengguna ke aksi berikutnya.
+- Adding a transaction should be completed in a few steps.
+- Default date is today.
+- Transaction types are distinguished by labels and icons, not just color.
+- Amounts always have a clear currency format.
+- After saving a transaction, users receive confirmation and see the updated data.
+- Empty states guide users to the next action
 
-## 13. Analitik dan Metrik Keberhasilan
+## 13. Analytics and Success Metric
 
-### Metrik produk
+### Product Metrics
 
-- **Activation rate:** persentase user yang membuat akun, akun keuangan, dan transaksi pertama.
-- **Day-7 retention:** persentase user yang kembali menggunakan produk pada hari ke-7.
-- **Weekly active users:** jumlah user aktif mingguan.
-- **Transactions per active user:** rata-rata jumlah transaksi per user aktif.
-- **Budget adoption:** persentase user aktif yang membuat budget.
-- **Task completion:** waktu dan keberhasilan mencatat transaksi.
+- **Activation rate:** percentage of users who create an account, a financial account, and their first transaction.
+- **Day-7 retention:** percentage of users who return to the product on the 7th day.
+- **Weekly active users:** number of weekly active users.
+- **Transactions per active user:** average number of transactions per active user.
+- **Budget adoption:** percentage of active users who create a budget.
+- **Task completion:** time and success rate of recording a transaction.
 
-### Target validasi awal
+### Initial Validation Targets
 
-- Minimal 5 pengguna mencoba MVP.
-- Minimal 3 pengguna menyelesaikan alur aktivasi tanpa bantuan langsung.
-- Minimal 2 pengguna kembali menggunakan aplikasi dalam 7 hari.
-- Tidak ada temuan kritis terkait akses data lintas pengguna.
-- Pengguna dapat mencatat transaksi utama dalam waktu kurang dari satu menit setelah memahami UI.
+- At least 5 users try the MVP.
+- At least 3 users complete the activation flow without direct assistance.
+- At least 2 users return to the application within 7 days.
+- No critical findings related to cross-user data access.
+- Users can record a main transaction in less than one minute after understanding the UI
 
-## 14. Rencana Delivery 8 Minggu
+## 14. 8-Week Delivery Plan
 
-| Minggu | Fokus | Deliverable |
+| Week | Focus | Deliverable |
 |---|---|---|
-| 1 | Discovery dan setup | Product brief, repo, frontend/backend skeleton |
-| 2 | Database dan backend foundation | Migration, connection, repository, error format |
+| 1 | Discovery and Setup | Product brief, repo, frontend/backend skeleton |
+| 2 | Database and Backend Foundation | Migration, connection, repository, error format |
 | 3 | Auth | Register, login, logout, protected route |
-| 4 | Core transaction flow | Accounts, categories, transaction CRUD |
+| 4 | Core Transaction Flow | Accounts, categories, transaction CRUD |
 | 5 | Insight | Dashboard, chart, budget |
 | 6 | Quality | UX states, responsive layout, tests, security review |
 | 7 | Release | CI, deployment, API docs, seed data |
 | 8 | Validation | User testing, feedback, portfolio case study |
 
-## 15. Risiko dan Mitigasi
+## 15. Risks and Mitigations
 
-| Risiko | Dampak | Mitigasi |
+| Risk | Impact | Mitigation |
 |---|---|---|
-| Scope terlalu besar | MVP terlambat | Prioritaskan P0 dan batasi integrasi eksternal |
-| Perhitungan saldo tidak konsisten | Hilangnya kepercayaan user | Gunakan server-side aggregation dan test invariants |
-| Kebocoran data antar user | Risiko keamanan tinggi | Authorization check pada setiap query resource |
-| Data finansial sensitif | Risiko privasi | Minimalkan data, enkripsi transport, secret management |
-| Waktu belajar terbatas | Progress tidak konsisten | Task harian kecil dan definition of done jelas |
-| Deployment memakan waktu | Demo tertunda | Deploy skeleton lebih awal pada minggu 2–3 |
-| Tidak ada validasi kebutuhan | Produk tidak dipakai | Uji dengan pengguna sebelum menambah fitur P1/P2 |
+| Scope too large | MVP delayed | Prioritize P0 and limit external integrations |
+| Inconsistent balance calculation | Loss of user trust | Use server-side aggregation and test invariants |
+| Cross-user data leak | High security risk | Authorization check on every resource query |
+| Sensitive financial data | Privacy risk | Minimize data, transport encryption, secret management |
+| Limited learning time | Inconsistent progress | Small daily tasks and clear definition of done |
+| Deployment takes too long | Demo delayed | Deploy skeleton earlier in weeks 2–3 |
+| No need validation | Product not used | Test with users before adding P1/P2 features |
 
-## 16. Definition of Done MVP
+## 16. MVP Definition of Done
 
-MVP dianggap selesai apabila:
+The MVP is considered complete when:
 
-- [ ] User baru dapat register dan login.
-- [ ] User dapat membuat akun keuangan.
-- [ ] User dapat mencatat, mengubah, memfilter, dan menghapus transaksi.
-- [ ] Dashboard menghitung saldo dan cash flow dengan benar.
-- [ ] User dapat membuat budget bulanan.
-- [ ] Authorization test membuktikan data antar user terisolasi.
-- [ ] Frontend responsive dan memiliki loading/error/empty state.
-- [ ] Backend memiliki unit/integration test yang relevan.
-- [ ] Migration dan seed data tersedia.
-- [ ] Aplikasi ter-deploy dan dapat dicoba melalui URL demo.
-- [ ] README dan dokumentasi API dapat diikuti oleh developer lain.
-- [ ] Tidak ada secret atau data pribadi di repository.
+- [ ] New users can register and login.
+- [ ] Users can create financial accounts.
+- [ ] Users can record, modify, filter, and delete transactions.
+- [ ] Dashboard calculates balance and cash flow correctly.
+- [ ] Users can create monthly budgets.
+- [ ] Authorization tests prove data between users is isolated.
+- [ ] Frontend is responsive and has loading/error/empty states.
+- [ ] Backend has relevant unit/integration tests.
+- [ ] Migration and seed data are available.
+- [ ] Application is deployed and can be tried via a demo URL.
+- [ ] README and API documentation can be followed by other developers.
+- [ ] No secrets or personal data are in the repository.
 
-## 17. Langkah Berikutnya
 
-1. Review PRD dan tandai fitur yang benar-benar diperlukan untuk versi pertama.
-2. Buat `docs/product.md` berdasarkan bagian problem, persona, dan user journey.
-3. Ubah FR menjadi issue/task kecil di repository.
-4. Mulai dari product brief dan setup repository pada roadmap minggu pertama.
-5. Sebelum membangun fitur tambahan, validasikan alur register → transaksi pertama → dashboard.
+## 17. Next Steps
 
-## Kesimpulan
+1. Review PRD and mark features that are truly necessary for the first version.
+2. Create docs/product.md based on the problem, persona, and user journey sections.
+3. Convert FRs into small issues/tasks in the repository.
+4. Start with the product brief and repository setup in the first week of the roadmap.
+5. Before building additional features, validate the register → first transaction → dashboard flow.
 
-FinTrack MVP harus membuktikan satu hal utama: pengguna dapat mencatat keuangannya dengan mudah dan memperoleh pemahaman yang lebih baik dari data tersebut. Setiap fitur di luar alur inti perlu menunggu sampai ada bukti kebutuhan dari pengguna, sehingga project tetap realistis untuk diselesaikan sekaligus cukup kuat sebagai portfolio dan fondasi bisnis SaaS.
+## Conclusion
+
+The FinTrack MVP must prove one main thing: users can record their finances easily and gain a better understanding from that data. Any feature outside the core flow must wait until there is evidence of user need, keeping the project realistic to complete while remaining strong as a portfolio and a foundation for a SaaS business.
