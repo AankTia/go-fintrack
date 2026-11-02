@@ -132,6 +132,7 @@ Pengguna dianggap aktif apabila telah:
 - Melihat daftar transaksi terbaru.
 - Filter berdasarkan tanggal, tipe, akun, dan kategori.
 - Mengedit dan menghapus transaksi.
+- (Out of Scope MVP) Transfer antar akun keuangan (akan diimplementasikan sebagai dua transaksi terpisah: pengeluaran dari akun A dan pemasukan ke akun B).
 
 #### Dashboard
 
@@ -283,7 +284,7 @@ Category 1 ─── * Budget
 | Entitas | Field penting | Catatan |
 |---|---|---|
 | User | id, email, password_hash, created_at | Email unik |
-| Account | id, user_id, name, type, currency | Milik satu user |
+| Account | id, user_id, name, type, currency, current_balance | Milik satu user, current_balance untuk optimasi query |
 | Category | id, user_id, name, kind | `income` atau `expense` |
 | Transaction | id, user_id, account_id, category_id, amount, kind, occurred_at | Nominal integer/unit terkecil |
 | Budget | id, user_id, category_id, month, limit_amount | Kombinasi user-category-month unik |
@@ -297,6 +298,7 @@ Category 1 ─── * Budget
 - Gunakan UTC untuk penyimpanan waktu.
 - Semua kalkulasi agregat harus berasal dari data server.
 - Jangan menyimpan credential bank atau nomor kartu.
+- Update saldo akun harus dilakukan secara atomik (menggunakan database transaction) bersamaan dengan pembuatan transaksi untuk menjaga konsistensi data.
 
 ## 11. Desain Teknis Tingkat Tinggi
 
