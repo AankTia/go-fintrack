@@ -27,6 +27,10 @@ func main() {
 	}
 	fmt.Println("Database connection verified!")
 
+	if err := platform.RunMigrations(); err != nil {
+		log.Fatalf("Could not run migrations: %v", err)
+	}
+
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {

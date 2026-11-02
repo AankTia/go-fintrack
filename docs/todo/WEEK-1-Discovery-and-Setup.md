@@ -56,10 +56,10 @@ Fokus: Menghubungkan aplikasi Go dengan database secara aman dan terstruktur.
 
 ### 2.3 Migration Setup
 
-- [ ] Pilih & Install tool migrasi (Rekomendasi: golang-migrate atau goose).
-- [ ] Buat folder migrations/.
-- [ ] First Migration: Buat file .sql untuk tabel users (id, email, password_hash, created_at, updated_at).
-- [ ] Verifikasi: Jalankan migrasi dan cek tabel di PostgreSQL.
+- [x] Pilih & Install tool migrasi (Rekomendasi: golang-migrate atau goose).
+- [x] Buat folder migrations/.
+- [x] First Migration: Buat file .sql untuk tabel users (id, email, password_hash, created_at, updated_at).
+- [x] Verifikasi: Jalankan migrasi dan cek tabel di PostgreSQL.
 
 ———
 

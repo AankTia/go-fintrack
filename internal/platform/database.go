@@ -3,8 +3,12 @@ package platform
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -48,5 +52,28 @@ func Ping() error {
 		return fmt.Errorf("database ping failed: %w", err)
 	}
 
+	return nil
+}
+
+func RunMigrations() error {
+	// Ambil URL database dari environment variable (diatur di .env)
+	dbUrl := os.Getenv("DB_URL")
+	if dbUrl == "" {
+		return fmt.Errorf("DB_URL is not se in environment")
+	}
+
+	m, err := migrate.New(
+		"file://migrations",
+		dbUrl,
+	)
+	if err != nil {
+		return fmt.Errorf("migration init: %w", err)
+	}
+
+	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
+		return fmt.Errorf("migration up: %w", err)
+	}
+
+	log.Println("✅ Database migrations applied")
 	return nil
 }
