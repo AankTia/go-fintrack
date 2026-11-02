@@ -69,9 +69,9 @@ Fokus: Memastikan flow request → handler → service → repo bekerja.
 
 ### 3.1 HTTP Server & Routing
 
-- [ ] Install router (Rekomendasi: go-chi/chi karena ringan dan std-lib compliant).
-- [ ] Setup base router di main.go dengan prefix /api/v1.
-- [ ] Implementasi middleware dasar: Logger dan Recovery.
+- [x] Install router (Rekomendasi: go-chi/chi karena ringan dan std-lib compliant).
+- [x] Setup base router di main.go dengan prefix /api/v1.
+- [x] Implementasi middleware dasar: Logger dan Recovery.
 
 ### 3.2 Auth: Register Endpoint (POST /auth/register)
 

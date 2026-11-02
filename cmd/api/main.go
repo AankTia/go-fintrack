@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
+	"github.com/AankTia/go-fintrack/internal/handler"
 	"github.com/AankTia/go-fintrack/internal/platform"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -25,6 +27,7 @@ func main() {
 	if err := platform.Ping(); err != nil {
 		log.Fatalf("Database not ready: %v", err)
 	}
+
 	fmt.Println("Database connection verified!")
 
 	if err := platform.RunMigrations(); err != nil {
@@ -32,9 +35,21 @@ func main() {
 	}
 
 	r := chi.NewRouter()
+
+	// Tambahkan middleware “Logger” (meng‑log setiap request)
 	r.Use(middleware.Logger)
+
+	r.Use(middleware.Recoverer) // melaporkan panic menjadi 500
+	r.Use(middleware.AllowContentType("application/json"))
+	r.Use(middleware.Timeout(60 * time.Second))
+
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello !"))
+	})
+
+	r.Route("/api/v1", func(r chi.Router){
+		r.Post("/auth/register", handler.RegisterHandler)
+		r.Post("/auth/login", handler.LoginHandler)
 	})
 
 	addr := fmt.Sprintf(":%s", cfg.Port)
