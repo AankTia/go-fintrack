@@ -46,6 +46,7 @@ Fokus: Menghubungkan aplikasi Go dengan database secara aman dan terstruktur.
 
 - [x] Buat struct Config untuk menampung DB_URL, PORT, JWT_SECRET.
 - [x] Implementasi fungsi LoadConfig() di internal/platform/config.go.
+- [x] Implementasi test TestLoadConfig
 
 ### 2.2 Database Connection Pool
 
