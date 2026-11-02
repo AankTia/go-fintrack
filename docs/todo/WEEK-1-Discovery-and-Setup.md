@@ -8,8 +8,8 @@ Fokus: Menyiapkan pondasi agar tidak ada konflik path atau dependency di kemudia
 
 ### 1.1 Go Runtime & Module Init
 
-- [ ] Install/Verify Go version (Latest stable).
-- [ ] Initialize Go module: go mod init github.com/tiawidi/go-fintrack.
+- [x] Install/Verify Go version (Latest stable).
+- [x] Initialize Go module: go mod init github.com/AankTia/go-fintrack.
 - [ ] Setup .gitignore (abaikan .env, binary, dan folder IDE).
 
 ### 1.2 Project Structure (Clean Architecture)
