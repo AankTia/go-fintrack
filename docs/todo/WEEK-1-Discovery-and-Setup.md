@@ -10,7 +10,7 @@ Fokus: Menyiapkan pondasi agar tidak ada konflik path atau dependency di kemudia
 
 - [x] Install/Verify Go version (Latest stable).
 - [x] Initialize Go module: go mod init github.com/AankTia/go-fintrack.
-- [ ] Setup .gitignore (abaikan .env, binary, dan folder IDE).
+- [x] Setup .gitignore (abaikan .env, binary, dan folder IDE).
 
 ### 1.2 Project Structure (Clean Architecture)
 
