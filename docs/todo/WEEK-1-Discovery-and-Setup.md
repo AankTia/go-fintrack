@@ -40,8 +40,12 @@ Fokus: Menghubungkan aplikasi Go dengan database secara aman dan terstruktur.
 ### 2.1 Config Loader
 
 - [ ] Install library config (contoh: spf13/viper atau joho/godotenv).
-- [ ] Buat struct Config untuk menampung DB_URL, PORT, JWT_SECRET.
-- [ ] Implementasi fungsi LoadConfig() di internal/platform/config.go.
+  - [x] `go get github.com/joho/godotenv`; It loads a .env file into os.Getenv. Very lightweight, no extra config needed. (spf13/viper is richer but also more complex; for a simple API we usually pick godotenv.)
+  - [x] `go get github.com/go-chi/chi/v5`
+  - [x] `go get github.com/go-chi/chi/v5/middleware`
+
+- [x] Buat struct Config untuk menampung DB_URL, PORT, JWT_SECRET.
+- [x] Implementasi fungsi LoadConfig() di internal/platform/config.go.
 
 ### 2.2 Database Connection Pool
 
