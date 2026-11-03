@@ -42,8 +42,8 @@ Fokus: Implementasi fitur pengelolaan akun keuangan pengguna.
 
 ### 5.2 Account Service Logic
 
-- [ ] CreateAccount: Validasi nama akun dan tipe akun.
-- [ ] GetMyAccounts: Ambil semua akun milik user yang sedang login.
+- [x] CreateAccount: Validasi nama akun dan tipe akun.
+- [x] GetMyAccounts: Ambil semua akun milik user yang sedang login.
 - [ ] Implementasi business rule: Misalnya, satu user minimal harus memiliki satu akun.
 
 ### 5.3 Account Handler & Routing

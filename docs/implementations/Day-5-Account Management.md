@@ -166,8 +166,9 @@ Kunci utama di Service layer:
 2. Tidak boleh ada logic SQL (seperti SELECT atau INSERT).
 3. Tugas utamanya adalah: Validasi bisnis, konversi data (Request → Entity), dan koordinasi pemanggilan repository.
 
-Berikut adalah detail implementasi untuk file internal/service/account.go:
+Berikut adalah detail implementasi untuk file `internal/service/account.go`:
 
+```go
 package service
 
 import (
@@ -262,21 +263,22 @@ func (s *AccountService) UpdateAccountBalance(ctx context.Context, accountID str
 
 	return nil
 }
+```
 
 ### 💡 Penjelasan untuk Pembelajar Go:
 
-1. errors.New & %w (Error Wrapping):
-   Saya membuat ErrAccountNotFound dan ErrInvalidInput. Di Go, sangat umum untuk mendefinisikan "Sentinel Errors".
-   Saat menggunakan fmt.Errorf("%w: ...", ErrInvalidInput), kita melakukan wrapping. Ini memungkinkan Handler nanti melakukan pengecekan: errors.Is(err, service.ErrInvalidInput) untuk menentukan apakah harus mengirim status 400 atau 500.
-2. Konsep DTO (Data Transfer Object):
-   Perhatikan bahwa CreateAccount menerima model.AccountRequest, bukan model.Account.
-   - AccountRequest: Apa yang user kirim via JSON (hanya Nama, Tipe, Saldo).
-   - Account: Apa yang ada di database (termasuk ID, UserID, CreatedAt).
-     Memisahkan keduanya mencegah user "menipu" sistem dengan mencoba mengirimkan ID atau UserID sendiri di dalam JSON.
-3. Pointer *model.Account:
-   Kita mengembalikan pointer (*) agar jika terjadi error, kita bisa mengembalikan nil. Ini adalah cara standar di Go untuk menunjukkan "tidak ada data yang ditemukan".
+1. `errors.New` & `%w (Error Wrapping)`:
+   Saya membuat `ErrAccountNotFound` dan `ErrInvalidInput`. Di Go, sangat umum untuk mendefinisikan _"Sentinel Errors"_.
+   Saat menggunakan `fmt.Errorf("%w: ...", ErrInvalidInput)`, kita melakukan wrapping. Ini memungkinkan Handler nanti melakukan pengecekan: `errors.Is(err, service.ErrInvalidInput)` untuk menentukan apakah harus mengirim status 400 atau 500.
+2. Konsep _DTO (Data Transfer Object)_:
+   Perhatikan bahwa `CreateAccount` menerima `model.AccountRequest`, bukan `model.Account`.
+   - `AccountRequest`: Apa yang user kirim via JSON (hanya Nama, Tipe, Saldo).
+   - `Account`: Apa yang ada di database (termasuk ID, UserID, CreatedAt).
+     Memisahkan keduanya mencegah user _"menipu"_ sistem dengan mencoba mengirimkan `ID` atau `UserID` sendiri di dalam JSON.
+3. Pointer `*model.Account`:
+   Kita mengembalikan pointer (*) agar jika terjadi error, kita bisa mengembalikan `nil`. Ini adalah cara standar di Go untuk menunjukkan _"tidak ada data yang ditemukan"_.
 4. Dependency Injection (DI):
-   AccountService tidak membuat repository-nya sendiri (tidak ada repo := repository.New... di dalam struct). Ia menerima repository melalui constructor NewAccountService. Ini membuat kode Anda sangat mudah di-test menggunakan Mock.
+   `AccountService` tidak membuat repository-nya sendiri (tidak ada `repo := repository.New...` di dalam struct). Ia menerima repository melalui constructor NewAccountService. Ini membuat kode Anda sangat mudah di-test menggunakan Mock.
 ———
 
 ## Step 3: Implementasi Handler (HTTP Layer)
