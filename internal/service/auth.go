@@ -75,7 +75,7 @@ func generateJWT(userID int64) (string, error) {
 	}
 
 	// Buat objek token dengan algoritma HMAC SHA256
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	
 	// Tanda tangani token menggunakan Secret Key dari Config
 	// platform.Config.JWTSecret harus sudah terisi saat LoadConfig()

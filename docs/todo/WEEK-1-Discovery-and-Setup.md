@@ -88,19 +88,19 @@ Fokus: Memastikan flow request → handler → service → repo bekerja.
 
 ### 3.4 Verification (The "Done" Gate)
 
-- [ ] Buat Postman Collection untuk Register & Login.
-- [ ] Test Case:
-  - [ ] Register user baru → Berhasil.
-  - [ ] Register email yang sama → Error 400 (Duplicate).
-  - [ ] Login dengan password salah → Error 401 (Unauthorized).
-  - [ ] Login berhasil → Mendapat JWT token.
+- [x] Buat Postman Collection / curl untuk Register & Login.
+- [x] Test Case:
+  - [x] Register user baru → Berhasil.
+  - [x] Register email yang sama → Error 400 (Duplicate).
+  - [x] Login dengan password salah → Error 401 (Unauthorized).
+  - [x] Login berhasil → Mendapat JWT token.
 
 ———
 
 ## ✅ Acceptance Criteria (End of Week 1)
 
-- [ ] docker compose up menjalankan DB tanpa error.
-- [ ] Migrasi tabel users terpasang otomatis/manual.
-- [ ] Endpoint /api/v1/auth/register dan /api/v1/auth/login berfungsi.
-- [ ] Password disimpan dalam bentuk Hash (bukan plain text).
-- [ ] Kode mengikuti struktur folder yang disepakati di AGENTS.md
+- [x] docker compose up menjalankan DB tanpa error.
+- [x] Migrasi tabel users terpasang otomatis/manual.
+- [x] Endpoint /api/v1/auth/register dan /api/v1/auth/login berfungsi.
+- [x] Password disimpan dalam bentuk Hash (bukan plain text).
+- [x] Kode mengikuti struktur folder yang disepakati di AGENTS.md
