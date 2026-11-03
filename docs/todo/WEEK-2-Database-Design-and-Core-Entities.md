@@ -48,8 +48,8 @@ Fokus: Implementasi fitur pengelolaan akun keuangan pengguna.
 
 ### 5.3 Account Handler & Routing
 
-- [ ] POST /api/v1/accounts: Create new account.
-- [ ] GET /api/v1/accounts: List all user accounts.
+- [x] POST /api/v1/accounts: Create new account.
+- [x] GET /api/v1/accounts: List all user accounts.
 - [ ] Integrasi dengan Auth Middleware untuk mengambil user_id dari JWT token.
 
 ### 5.4 Verification

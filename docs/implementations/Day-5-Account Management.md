@@ -440,18 +440,19 @@ func (h *AccountHandler) GetDetail(w http.ResponseWriter, r *http.Request) {
 
 ## Step 4: Dependency Injection (Wiring)
 
-File: cmd/api/main.go (Update file ini)
+File: `cmd/api/main.go` (Update file ini)
 
 Penjelasan untuk Pembelajar Go:
-Di Go, kita tidak membuat objek secara acak. Kita menggunakan Dependency Injection (menyuntikkan dependency dari bawah ke atas).
+Di Go, kita tidak membuat objek secara acak. Kita menggunakan _Dependency Injection_ (menyuntikkan dependency dari bawah ke atas).
 
 1. Database → dimasukkan ke → Repository
 2. Repository → dimasukkan ke → Service
 3. Service → dimasukkan ke → Handler
 
 Detail Implementasi:
-Di dalam main(), setelah koneksi DB berhasil:
+Di dalam `main()`, setelah koneksi DB berhasil:
 
+```go
 // 1. Repo
 accountRepo := repository.NewAccountRepository(db) 
 // 2. Service
@@ -465,15 +466,17 @@ r.Group(func(r chi.Router) {
     r.Post("/api/v1/accounts", accountHdl.Create)
     r.Get("/api/v1/accounts", accountHdl.List)
 })
+```
 
 Dalam Go, kita menggunakan pola Constructor Injection. Artinya, kita membuat objek dari layer terbawah (Database) → Repository → Service → Handler.
 
-Berikut adalah detail implementasi yang harus Anda terapkan di cmd/api/main.go.
+Berikut adalah detail implementasi yang harus Anda terapkan di `cmd/api/main.go`.
 
 ### 🛠️ Detail Implementasi cmd/api/main.go
 
-Saya akan memberikan potongan kode yang harus Anda masukkan ke dalam fungsi main(). Saya mengasumsikan Anda menggunakan chi sebagai router (karena sangat populer di ekosistem Go dan ringan).
+Saya akan memberikan potongan kode yang harus Anda masukkan ke dalam fungsi `main()`. Saya mengasumsikan Anda menggunakan chi sebagai router (karena sangat populer di ekosistem Go dan ringan).
 
+```go
 package main
 
 import (
@@ -546,6 +549,7 @@ func main() {
 	log.Println("Server starting on :8080...")
 	http.ListenAndServe(":8080", r)
 }
+```
 
 ———
 
@@ -571,11 +575,11 @@ Bayangkan jika suatu saat Anda ingin mengganti database dari PostgreSQL ke MySQL
 
 #### 3. Middleware Grouping
 
-Perhatikan r.Group. Ini adalah cara efisien di Go untuk mengelompokkan route.
+Perhatikan `r.Group`. Ini adalah cara efisien di Go untuk mengelompokkan route.
 
-- Route /auth/login adalah Public (tidak butuh token).
-- Route /accounts adalah Private.
-  Dengan menaruh r.Use(middleware.AuthMiddleware) di dalam grup, kita tidak perlu memanggil fungsi cek token di setiap handler. Middleware akan mencegat request, memvalidasi JWT, dan jika valid, ia akan memasukkan userID ke dalam context sebelum request sampai ke accountHdl.Create.
+- Route `/auth/login` adalah Public (tidak butuh token).
+- Route `/accounts` adalah Private.
+  Dengan menaruh `r.Use(middleware.AuthMiddleware)` di dalam grup, kita tidak perlu memanggil fungsi cek token di setiap handler. Middleware akan mencegat request, memvalidasi JWT, dan jika valid, ia akan memasukkan userID ke dalam context sebelum request sampai ke accountHdl.Create.
 
 ### 🚀 Checklist Akhir untuk Anda:
 
