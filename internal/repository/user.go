@@ -14,8 +14,13 @@ type User struct {
 	PasswordHash string
 }
 
-// CreateUser men‑insert ke table users
+// CreateUser men-insert user baru ke database dan return user yang tersimpan
+// Parameter: email, hashedPassword (password sudah di-hash oleh service layer)
+// Return: object User dengan ID baru, atau error jika gagal insert
 func CreateUser(ctx context.Context, email, hashedPassword string) (*User, error) {
+	// Query SQL dengan parameterized query (cegah SQL Injection)
+	//    - Menggunakan $1, $2 untuk placeholder parameter
+	//    - RETURNING clause ambil id & email dari DB sebagai primary response
 	query := `INSERT INTO users (email, password_hash, created_at, updated_at)
 						VALUES ($1, $2, NOW(), NOW())
 						RETURNING id, email`

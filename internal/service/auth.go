@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"errors"
-	"time"
 
 	"github.com/AankTia/go-fintrack/internal/model"
 	"github.com/AankTia/go-fintrack/internal/repository"
@@ -12,6 +11,13 @@ import (
 
 // RegisterUser mem‑proses pendaftaran
 func RegisterUser(ctx context.Context, req *model.RegisterRequest) (*model.UserResponse, error) {
+	if len(req.Email) == 0 {
+		return nil, errors.New("email is required")
+	}
+
+	if len(req.Password) < 8 {
+		return nil, errors.New("password must be at least 8 characters")
+	}
 	// 1. Hash password
 	hashed, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -21,6 +27,11 @@ func RegisterUser(ctx context.Context, req *model.RegisterRequest) (*model.UserR
 	// 2. Simpan ke DB (repo layer)
 	user, err := repository.CreateUser(ctx, req.Email, string(hashed))
 	if err != nil {
+		// Check apakah error dari database karena email duplicate?
+		// PostgreSQL: unique_violation = "23505"
+		// if errors.Is(err, psqlErrorDuplicateEmail) {
+		// 	return nil, errors.New("email already exists") // Return 400 Duplicate
+		// }
 		return nil, err
 	}
 
@@ -43,10 +54,7 @@ func LoginUser(ctx context.Context, req *model.LoginRequest) (string, error) {
 
 	// TODO: generate JWT token (gunakan jwt-go atau libs)
 	// Sebagai contoh sederhana:
-	token := "mocked-jwt-token"
-
-	// Biasanya token ber‑ttl (exp) dan signed dengan secret
-	_ = time.Now()
+	token := "mocked-jwt-token-placeholder"
 
 	return token, nil
 }

@@ -75,10 +75,10 @@ Fokus: Memastikan flow request → handler → service → repo bekerja.
 
 ### 3.2 Auth: Register Endpoint (POST /auth/register)
 
-- [ ] Model: Buat RegisterRequest dan UserResponse DTO.
-- [ ] Repository: Implementasi CreateUser (insert ke DB).
-- [ ] Service: Implementasi logic hashing password (gunakan bcrypt).
-- [ ] Handler: Validasi input → panggil service → return 201 Created.
+- [x] Model: Buat RegisterRequest dan UserResponse DTO.
+- [x] Repository: Implementasi CreateUser (insert ke DB).
+- [x] Service: Implementasi logic hashing password (gunakan bcrypt).
+- [x] Handler: Validasi input → panggil service → return 201 Created.
 
 ### 3.3 Auth: Login Endpoint (POST /auth/login)
 
