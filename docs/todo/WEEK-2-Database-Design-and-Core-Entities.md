@@ -10,9 +10,9 @@ Fokus: Mendefinisikan "kebenaran" data di level database dan memetakannya ke Go 
 
 Buat file migrasi baru untuk entitas utama:
 
-- [ ] Table accounts: id (UUID), user_id (FK → users), name (string), type (enum: bank, cash, e-wallet), balance (BIGINT/NUMERIC), currency (string), created_at, updated_at.
-- [ ] Table categories: id (UUID), user_id (FK → users, nullable untuk kategori default), name (string), type (enum: income, expense), icon (string), created_at, updated_at.
-- [ ] Constraints: Tambahkan INDEX pada user_id di semua tabel untuk optimasi query.
+- [x] Table accounts: id (UUID), user_id (FK → users), name (string), type (enum: bank, cash, e-wallet), balance (BIGINT/NUMERIC), currency (string), created_at, updated_at.
+- [x] Table categories: id (UUID), user_id (FK → users, nullable untuk kategori default), name (string), type (enum: income, expense), icon (string), created_at, updated_at.
+- [x] Constraints: Tambahkan INDEX pada user_id di semua tabel untuk optimasi query.
 
 ### 4.2 Go Model Mapping
 

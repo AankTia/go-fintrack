@@ -11,21 +11,22 @@ Berikut adalah step-by-step detail untuk Day 4:
 ### Step 1: Membuat Migrasi Database (Schema)
 
 Penjelasan:
-Kita tidak membuat tabel secara manual di database (lewat GUI/Terminal), melainkan menggunakan file .sql (migrasi). Tujuannya agar setiap developer punya struktur DB yang sama. Kita butuh dua tabel: accounts (untuk tempat uang) dan categories (untuk pengelompokan transaksi).
+Kita tidak membuat tabel secara manual di database (lewat GUI/Terminal), melainkan menggunakan file `.sql` (migrasi). Tujuannya agar setiap developer punya struktur DB yang sama. Kita butuh dua tabel: `accounts` (untuk tempat uang) dan `categories` (untuk pengelompokan transaksi).
 
 Apa yang harus dilakukan:
-Buat dua file baru di folder migrations/:
+Buat dua file baru di folder `migrations/`:
 
-1. 000002_create_accounts_table.up.sql (untuk membuat tabel)
-2. 000002_create_accounts_table.down.sql (untuk menghapus tabel jika terjadi kesalahan/rollback)
-3. 000003_create_categories_table.up.sql
-4. 000003_create_categories_table.down.sql
+1. `000002_create_accounts_table.up.sql` (untuk membuat tabel)
+2. `000002_create_accounts_table.down.sql` (untuk menghapus tabel jika terjadi kesalahan/rollback)
+3. `000003_create_categories_table.up.sql`
+4. `000003_create_categories_table.down.sql`
 
 Implementasi Kode:
 (Silakan buat file-file tersebut dengan isi berikut)
 
-000002_create_accounts_table.up.sql:
+`000002_create_accounts_table.up.sql`:
 
+```sql
 CREATE TABLE accounts (
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -38,13 +39,17 @@ updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_accounts_user_id ON accounts(user_id);
+```
 
-000002_create_accounts_table.down.sql:
+`000002_create_accounts_table.down.sql`:
 
+```sql
 DROP TABLE IF EXISTS accounts;
+```
 
-000003_create_categories_table.up.sql:
+`000003_create_categories_table.up.sql`:
 
+```sql
 CREATE TABLE categories (
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 user_id UUID REFERENCES users(id) ON DELETE CASCADE, -- nullable untuk kategori global
@@ -56,10 +61,13 @@ updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_categories_user_id ON categories(user_id);
+```
 
-000003_create_categories_table.down.sql:
+`000003_create_categories_table.down.sql`:
 
+```sql
 DROP TABLE IF EXISTS categories;
+```
 
 ———
 
