@@ -76,16 +76,17 @@ DROP TABLE IF EXISTS categories;
 Penjelasan:
 Model adalah representasi tabel database di dalam Go. Kita menggunakan struct.
 
-- Tipe Data: Untuk uang, kita gunakan int64 (BIGINT di DB). Jangan pernah gunakan float64 untuk uang karena masalah presisi pembulatan.
+- Tipe Data: Untuk uang, kita gunakan `int64` (BIGINT di DB). Jangan pernah gunakan `float64` untuk uang karena masalah presisi pembulatan.
 - UUID: Kita gunakan string atau library google/uuid (tergantung yang sudah terinstall, namun umumnya string untuk kemudahan di DTO).
 
 Apa yang harus dilakukan:
-Buat file baru internal/model/account.go dan internal/model/category.go.
+Buat file baru `internal/model/account.go` dan `internal/model/category.go`.
 
 Implementasi Kode:
 
-internal/model/account.go:
+`internal/model/account.go`:
 
+```go
 package model
 
 import "time"
@@ -109,9 +110,11 @@ Type string `json:"type" validate:"required,oneof=bank cash e-wallet"`
 Balance int64 `json:"balance"`
 Currency string `json:"currency"`
 }
+```
 
-internal/model/category.go:
+`internal/model/category.go`:
 
+```go
 package model
 
 import "time"
@@ -133,6 +136,7 @@ Name string `json:"name" validate:"required"`
 Type string `json:"type" validate:"required,oneof=income expense"`
 Icon string `json:"icon"`
 }
+```
 
 ———
 

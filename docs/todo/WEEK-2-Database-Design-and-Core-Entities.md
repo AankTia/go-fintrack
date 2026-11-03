@@ -18,9 +18,9 @@ Buat file migrasi baru untuk entitas utama:
 
 Implementasikan struct di internal/model/:
 
-- [ ] Account & Category entity (untuk internal/DB).
-- [ ] AccountRequest & CategoryRequest DTO (untuk validasi input).
-- [ ] Pastikan field uang menggunakan int64 (representasi sen/unit terkecil) untuk menghindari floating point error.
+- [x] Account & Category entity (untuk internal/DB).
+- [x] AccountRequest & CategoryRequest DTO (untuk validasi input).
+- [x] Pastikan field uang menggunakan int64 (representasi sen/unit terkecil) untuk menghindari floating point error.
 
 ### 4.3 Repository Interface
 
