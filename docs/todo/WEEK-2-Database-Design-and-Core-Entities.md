@@ -37,8 +37,8 @@ Fokus: Implementasi fitur pengelolaan akun keuangan pengguna.
 
 ### 5.1 Account Repository Implementation
 
-- [ ] Implementasi method repository menggunakan parameterized query (cegah SQL Injection).
-- [ ] Wajib: Setiap query SELECT, UPDATE, atau DELETE harus menyertakan WHERE user_id = ? untuk menjamin isolasi data.
+- [x] Implementasi method repository menggunakan parameterized query (cegah SQL Injection).
+- [x] Wajib: Setiap query SELECT, UPDATE, atau DELETE harus menyertakan WHERE user_id = ? untuk menjamin isolasi data.
 
 ### 5.2 Account Service Logic
 
