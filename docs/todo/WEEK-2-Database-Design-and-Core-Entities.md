@@ -26,8 +26,8 @@ Implementasikan struct di internal/model/:
 
 Definisikan contract di internal/repository/:
 
-- [ ] AccountRepository interface: Create, GetByID, GetByUserID, UpdateBalance.
-- [ ] CategoryRepository interface: Create, GetByUserID, Delete.
+- [x] AccountRepository interface: Create, GetByID, GetByUserID, UpdateBalance.
+- [x] CategoryRepository interface: Create, GetByUserID, Delete.
 
 ———
 

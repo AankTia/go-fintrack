@@ -147,40 +147,45 @@ Di Go, kita menggunakan interface agar kode kita tidak kaku. Interface adalah "k
 Misalnya: "Saya tidak peduli bagaimana cara Anda mengambil data dari DB, yang penting Anda punya fungsi GetByUserID". Ini sangat berguna untuk testing (Mocking).
 
 Apa yang harus dilakukan:
-Buat file internal/repository/account_repository.go dan internal/repository/category_repository.go.
+Buat file `internal/repository/account_repository.go` dan `internal/repository/category_repository.go`.
 
 Implementasi Kode:
 
-internal/repository/account_repository.go:
+`internal/repository/account_repository.go`:
 
+```go
 package repository
 
 import (
-"context"
-"github.com/yourusername/go-fintrack/internal/model" // Sesuaikan dengan module name di go.mod
+  "context"
+  "github.com/yourusername/go-fintrack/internal/model" // Sesuaikan dengan module name di go.mod
 )
 
 type AccountRepository interface {
-Create(ctx context.Context, account *model.Account) error
-GetByID(ctx context.Context, id string) (*model.Account, error)
-GetByUserID(ctx context.Context, userID string) ([]\*model.Account, error)
-UpdateBalance(ctx context.Context, id string, amount int64) error
+  Create(ctx context.Context, account *model.Account) error
+  GetByID(ctx context.Context, id string) (*model.Account, error)
+  GetByUserID(ctx context.Context, userID string) ([]\*model.Account, error)
+  UpdateBalance(ctx context.Context, id string, amount int64) error
 }
+```
 
-internal/repository/category_repository.go:
+`internal/repository/category_repository.go`:
 
+
+```go
 package repository
 
 import (
-"context"
-"github.com/yourusername/go-fintrack/internal/model" // Sesuaikan dengan module name di go.mod
+  "context"
+  "github.com/yourusername/go-fintrack/internal/model" // Sesuaikan dengan module name di go.mod
 )
 
 type CategoryRepository interface {
-Create(ctx context.Context, category *model.Category) error
-GetByUserID(ctx context.Context, userID string) ([]*model.Category, error)
-Delete(ctx context.Context, id string) error
+  Create(ctx context.Context, category *model.Category) error
+  GetByUserID(ctx context.Context, userID string) ([]*model.Category, error)
+  Delete(ctx context.Context, id string) error
 }
+```
 
 ———
 
