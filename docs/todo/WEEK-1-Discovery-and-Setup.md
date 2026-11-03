@@ -82,9 +82,9 @@ Fokus: Memastikan flow request → handler → service → repo bekerja.
 
 ### 3.3 Auth: Login Endpoint (POST /auth/login)
 
-- [ ] Repository: Implementasi GetUserByEmail.
-- [ ] Service: Verifikasi password hash → generate JWT token.
-- [ ] Handler: Validasi input → panggil service → return token.
+- [x] Repository: Implementasi GetUserByEmail.
+- [x] Service: Verifikasi password hash → generate JWT token.
+- [x] Handler: Validasi input → panggil service → return token.
 
 ### 3.4 Verification (The "Done" Gate)
 

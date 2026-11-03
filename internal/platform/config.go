@@ -13,6 +13,8 @@ type Config struct {
 	JWTSecret string
 }
 
+var AppConfig Config
+
 // LoadConfig reads a .env file (if present) and returns a Config struct
 func LoadConfig() (*Config, error) {
 	// 1. If a .env file exists, load it – this is useful for local dev

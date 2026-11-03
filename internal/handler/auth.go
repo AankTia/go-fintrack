@@ -37,10 +37,17 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	// Panggil service layer
 	token, err := service.LoginUser(r.Context(), &req)
 	if err != nil {
+		// Jika error adalah "invalid credentials", kirim 401 Unauthorized
+		if err.Error() == "invalid credentials" {
+			http.Error(w, err.Error(), http.StatusUnauthorized)
+		}
+
+		// Error lainnya kirim 400 atau 500
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]string{"token": token})
 }
