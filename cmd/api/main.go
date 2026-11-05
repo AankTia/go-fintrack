@@ -100,6 +100,7 @@ func main() {
 			r.Delete("/transactions/{id}", transactionHdl.Delete)
 
 			r.Get("/dashboard/summary", dashboardHdl.GetSummary)
+			r.Get("/dashboard/breakdown", dashboardHdl.GetBreakdown)
 		})
 	})
 

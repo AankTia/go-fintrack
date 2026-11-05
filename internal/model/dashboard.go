@@ -10,3 +10,10 @@ type DashboardSummary struct {
 	ReportMonth  time.Month `json:"report_month"`
 	ReportYear   int        `json:"report_year"`
 }
+
+type CategoryBreakdown struct {
+	CategoryID   string  `json:"category_id"`
+	CategoryName string  `json:"category_name"`
+	TotalAmount  int64   `json:"total_amount"`
+	Percentage   float64 `json:"percentage"` // Persentase terhadap total pengeluaran bulanan
+}

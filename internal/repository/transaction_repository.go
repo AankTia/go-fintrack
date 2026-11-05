@@ -16,6 +16,7 @@ type TransactionRepository interface {
 	Update(ctx context.Context, tx pgx.Tx, t *model.Transaction) error
 	Delete(ctx context.Context, tx pgx.Tx, id string) error
 	GetMonthlySummary(ctx context.Context, userID string, month int, year int) (income int64, expense int64, err error)
+	GetExpenseBreakdown(ctx context.Context, userID string, month int, year int) ([]*model.CategoryBreakdown, error)
 }
 
 type transactionRepository struct {
@@ -136,3 +137,33 @@ func (r *transactionRepository) GetMonthlySummary(ctx context.Context, userID st
 	}
 	return income, expense, nil
 }
+
+func (r *transactionRepository) GetExpenseBreakdown(ctx context.Context, userID string, month int, year int) ([]*model.CategoryBreakdown, error) {
+	query := `SELECT
+							c.id, c.name, SUM(t.ammount) as total
+						FROM transactions t
+						JOIN categories c ON t.category_id = c.id
+						WHERE t.user_id = $1
+						AND t.type = 'expense'
+						AND EXTRACT(MONTH FROM t.transaction_date) = $2
+						AND EXTRACT(YEAR FROM t.transaction_date) = $3
+						GROUP BY c.id, c.name
+						ORDER BY total DESC`
+
+	rows, err := r.db.Query(ctx, query, userID, month, year)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var breakdown []*model.CategoryBreakdown
+	for rows.Next() {
+		var cb model.CategoryBreakdown
+		if err := rows.Scan(&cb.CategoryID, &cb.CategoryName, &cb.TotalAmount); err != nil {
+			return nil, err
+		}
+		breakdown = append(breakdown, &cb)
+	}
+
+	return breakdown, nil
+} 

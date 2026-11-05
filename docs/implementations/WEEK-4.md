@@ -1,6 +1,6 @@
 # 🗓️ WEEK 4: Dashboard & Analytics
 
-### 🟦 Day 10: Dashboard Summary API
+## Day 10: Dashboard Summary API
 
 Goal: Membuat endpoint `GET /api/v1/dashboard/summary` untuk mendapatkan ringkasan keuangan.
 
@@ -185,3 +185,164 @@ api.GET("/dashboard/summary", dashboardHdl.GetSummary)
 
 Catatan Keamanan:
 Sesuai AGENTS.md, saya memastikan userID diambil dari context (c.GetUint64("userID")) yang diisi oleh middleware auth, bukan dari query parameter, untuk mencegah akses data user lain.
+
+## Day 11: Category Breakdown & Charts Data
+
+### Step 1: Definisikan Model (Data Contract)
+
+Buat model baru di `internal/model/dashboard.go` untuk menampung hasil breakdown. Kita perlu menyimpan nama kategori agar frontend tidak perlu melakukan lookup manual.
+
+Tambah di `internal/model/dashboard.go`:
+
+```go
+type CategoryBreakdown struct {
+	CategoryID   string  `json:"category_id"`
+	CategoryName string  `json:"category_name"`
+	TotalAmount  int64   `json:"total_amount"`
+	Percentage   float64 `json:"percentage"` // Persentase terhadap total pengeluaran bulanan
+}
+```
+
+———
+
+### Step 2: Implementasi Repository (Data Access)
+
+Tambahkan method baru di `TransactionRepository` untuk mengambil total pengeluaran yang dikelompokkan berdasarkan kategori.
+
+1. Update Interface di `internal/repository/transaction_repository.go`:
+
+```go
+type TransactionRepository interface {
+    // ... method lainnya
+    GetExpenseBreakdown(ctx context.Context, userID string, month int, year int) ([]*model.CategoryBreakdown, error)
+}
+```
+
+2. Implementasi Method di transactionRepository:
+Gunakan `GROUP BY` dan `JOIN` dengan tabel `categories` untuk mendapatkan nama kategori.
+
+```go
+func (r *transactionRepository) GetExpenseBreakdown(ctx context.Context, userID string, month int, year int) ([]*model.CategoryBreakdown, error) {
+	query := `
+		SELECT 
+			c.id, c.name, SUM(t.amount) as total
+		FROM transactions t
+		JOIN categories c ON t.category_id = c.id
+		WHERE t.user_id = $1 
+		AND t.type = 'expense'
+		AND EXTRACT(MONTH FROM t.transaction_date) = $2 
+		AND EXTRACT(YEAR FROM t.transaction_date) = $3
+		GROUP BY c.id, c.name
+		ORDER BY total DESC`
+
+	rows, err := r.db.Query(ctx, query, userID, month, year)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var breakdown []*model.CategoryBreakdown
+	for rows.Next() {
+		var cb model.CategoryBreakdown
+		if err := rows.Scan(&cb.CategoryID, &cb.CategoryName, &cb.TotalAmount); err != nil {
+			return nil, err
+		}
+		breakdown = append(breakdown, &cb)
+	}
+
+	return breakdown, nil
+}
+```
+
+———
+
+### Step 3: Implementasi Service (Business Logic)
+
+Service akan memanggil repository, lalu menghitung persentase untuk setiap kategori berdasarkan total pengeluaran bulan tersebut.
+
+1. Update Interface di `internal/service/dashboard.go`:
+
+```go
+type DashboardService interface {
+    GetSummary(ctx context.Context, userID string, month int, year int) (*model.DashboardSummary, error)
+    GetBreakdown(ctx context.Context, userID string, month int, year int) ([]*model.CategoryBreakdown, error)
+}
+```
+
+2. Implementasi Method `GetBreakdown`:
+
+```go
+func (s *dashboardService) GetBreakdown(ctx context.Context, userID string, month int, year int) ([]*model.CategoryBreakdown, error) {
+	// 1. Ambil data breakdown dari repo
+	breakdowns, err := s.transactionRepo.GetExpenseBreakdown(ctx, userID, month, year)
+	if err != nil {
+		return nil, err
+	}
+
+	// 2. Hitung total keseluruhan untuk mencari persentase
+	var grandTotal int64
+	for _, b := range breakdowns {
+		grandTotal += b.TotalAmount
+	}
+
+	// 3. Hitung persentase untuk tiap kategori
+	if grandTotal > 0 {
+		for _, b := range breakdowns {
+			b.Percentage = (float64(b.TotalAmount) / float64(grandTotal)) * 100
+		}
+	}
+
+	return breakdowns, nil
+}
+```
+
+———
+
+### Step 4: Implementasi Handler (API Layer)
+
+Ekspos fungsi service ke endpoint HTTP.
+
+Tambah method di `internal/handler/dashboard.go`:
+
+```go
+func (h *DashboardHandler) GetBreakdown(w http.ResponseWriter, r *http.Request) {
+	userID, ok := r.Context().Value("user_id").(string)
+	if !ok {
+		respondWithError(w, http.StatusUnauthorized, "unauthorized")
+		return
+	}
+
+	// Logic ambil month & year dari context/query param (sama seperti GetSummary)
+	// ... (copy logic month/year parsing dari GetSummary) ...
+
+	breakdown, err := h.service.GetBreakdown(r.Context(), userID, month, year)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "internal server error")
+		return
+	}
+
+	respondWithJSON(w, http.StatusOK, breakdown)
+}
+```
+
+———
+
+### Step 5: Registrasi Route
+
+Jangan lupa untuk mendaftarkan handler baru ini di file routing Anda (biasanya di internal/platform/router atau cmd/api/main.go).
+
+```go
+// Contoh registrasi route
+router.GET("/api/v1/dashboard/breakdown", dashboardHandler.GetBreakdown)
+```
+
+———
+
+### ✅ Checklist Verifikasi (Acceptance Criteria)
+
+Setelah implementasi, lakukan pengujian berikut:
+
+1. Data Accuracy: Input beberapa transaksi pengeluaran di kategori berbeda → Panggil /breakdown → Pastikan TotalAmount per kategori sesuai dan Percentage jika dijumlahkan hasilnya 100%.
+2. Security (Ownership): Coba panggil endpoint dengan token User A, pastikan tidak ada data User B yang muncul (sudah tercover oleh WHERE user_id = $1 di repo).
+3. Empty State: Jika bulan tersebut tidak ada pengeluaran, pastikan API mengembalikan array kosong [], bukan error 500.
+4. Sorting: Pastikan kategori dengan nominal terbesar muncul paling atas.

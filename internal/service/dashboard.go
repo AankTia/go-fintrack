@@ -10,6 +10,7 @@ import (
 
 type DashboardService interface {
 	GetSummary(ctx context.Context, userID string, mont int, year int) (*model.DashboardSummary, error)
+	GetBreakdown(ctx context.Context, userID string, month int, year int) ([]*model.CategoryBreakdown, error)
 }
 
 type dashboardService struct {
@@ -43,4 +44,27 @@ func (s *dashboardService) GetSummary(ctx context.Context, userID string, month 
 		ReportMonth:  time.Month(month),
 		ReportYear:   year,
 	}, nil
+}
+
+func (s *dashboardService) GetBreakdown(ctx context.Context, userID string, month int, year int) ([]*model.CategoryBreakdown, error) {
+	// Ambil data breakdown dari repo
+	breakdowns, err := s.transactionRepo.GetExpenseBreakdown(ctx, userID, month, year)
+	if err != nil {
+		return nil, err
+	}
+
+	// Hitung total keseluruhan untuk mencari persentase
+	var grandTotal int64
+	for _, b := range breakdowns {
+		grandTotal += b.TotalAmount
+	}
+
+	// Hitung persentase untuk tiap kategori
+	if grandTotal > 0 {
+		for _, b := range breakdowns {
+			b.Percentage = (float64(b.TotalAmount) / float64(grandTotal)) * 100
+		}
+	}
+
+	return breakdowns, nil
 }
