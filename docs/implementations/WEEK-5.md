@@ -422,12 +422,16 @@ Verifikasi Migration:
 Pastikan saat membuat tabel budgets di Day 13, Anda menggunakan ON DELETE CASCADE pada foreign key category_id.
 
 -- Cek apakah sudah seperti ini:
+```sql
 CONSTRAINT fk_category FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE CASCADE
+```
 
 Jika belum, jalankan migration alter table:
 
+```sql
 ALTER TABLE budgets DROP CONSTRAINT fk_category;
 ALTER TABLE budgets ADD CONSTRAINT fk_category FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE CASCADE;
+```
 
 ———
 
@@ -457,8 +461,10 @@ Optimasi Database:
 Tambahkan index pada kolom yang digunakan di WHERE clause untuk perhitungan pengeluaran.
 
 -- Index untuk mempercepat pencarian transaksi berdasarkan user, kategori, dan tanggal
-CREATE INDEX idx_transactions_budget_calc ON transactions(user_id, category_id, transaction_date);
 
+```sql
+CREATE INDEX idx_transactions_budget_calc ON transactions(user_id, category_id, transaction_date);
+```
 ———
 
 ### 4. Final Integration Testing (End-to-End Flow)
@@ -497,5 +503,3 @@ Verifikasi:
 Catatan:
 - Menggunakan BIGINT untuk amount guna menghindari floating point error.
 - Menggunakan pendekatan on-the-fly calculation untuk Budget Status guna menjamin konsistensi data.
-
-Selamat! Anda telah menyelesaikan modul Budget Management. Apakah ada bagian yang kurang jelas atau ingin Anda tambahkan?

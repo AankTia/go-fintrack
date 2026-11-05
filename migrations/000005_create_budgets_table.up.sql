@@ -14,3 +14,4 @@ CREATE TABLE budgets (
 );
 
 CREATE INDEX idx_budgets_user_period ON budgets(user_id, period);
+CREATE INDEX idx_transactions_budget_calc ON transactions(user_id, category_id, transaction_date);
