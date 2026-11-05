@@ -258,8 +258,9 @@ Kita akan menggunakan TanStack Query (useQuery & useMutation) untuk mengelola st
 
 Sebelum masuk ke fitur, kita harus membungkus aplikasi dengan QueryClientProvider.
 
-Edit file /frontend/app/layout.tsx:
+Edit file `/frontend/app/layout.tsx`:
 
+```js
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -279,6 +280,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+```
 
 ———
 
@@ -288,8 +290,9 @@ Kita akan membuat tampilan saldo dalam bentuk Card dan modal untuk menambah akun
 
 #### 1. Account List Component
 
-Buat file /frontend/components/accounts/account-list.tsx:
+Buat file `/frontend/components/accounts/account-list.tsx`:
 
+```js
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
@@ -326,11 +329,13 @@ export function AccountList() {
     </div>
   );
 }
+```
 
 #### 2. Create Account Modal
 
-Buat file /frontend/components/accounts/create-account-modal.tsx:
+Buat file `/frontend/components/accounts/create-account-modal.tsx`:
 
+```js
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -386,6 +391,7 @@ export function CreateAccountModal() {
     </Dialog>
   );
 }
+```
 
 ———
 
@@ -393,8 +399,9 @@ export function CreateAccountModal() {
 
 #### 1. Transaction Table Component
 
-Buat file /frontend/components/transactions/transaction-table.tsx:
+Buat file `/frontend/components/transactions/transaction-table.tsx`:
 
+```js
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
@@ -438,11 +445,13 @@ export function TransactionTable() {
     </div>
   );
 }
+```
 
 #### 2. Transaction Form Modal
 
-Buat file /frontend/components/transactions/create-transaction-modal.tsx:
+Buat file `/frontend/components/transactions/create-transaction-modal.tsx`:
 
+```js
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -522,6 +531,7 @@ export function CreateTransactionModal() {
     </Dialog>
   );
 }
+```
 
 ———
 
@@ -529,8 +539,9 @@ export function CreateTransactionModal() {
 
 Sekarang kita satukan semua komponen di satu halaman.
 
-Edit file /frontend/app/dashboard/page.tsx:
+Edit file `/frontend/app/dashboard/page.tsx`:
 
+```js
 import { AccountList } from "@/components/accounts/account-list";
 import { CreateAccountModal } from "@/components/accounts/create-account-modal";
 import { TransactionTable } from "@/components/transactions/transaction-table";
@@ -559,6 +570,7 @@ export default function DashboardPage() {
     </div>
   );
 }
+```
 
 ### 🏁 Verifikasi Akhir (Day 17)
 
