@@ -22,7 +22,7 @@ export default function RegisterPage() {
 
   async function onSubmit(values: RegisterFormValues) {
     try {
-      await api.post("/api/register", values);
+      await api.post("/auth/register", values);
       toast.add({
         title: "Berhasil",
         description: "Akun berhasil dibuat, silahkan login.",

@@ -13,6 +13,7 @@ import (
 	"github.com/AankTia/go-fintrack/internal/service"
 	"github.com/go-chi/chi/v5"
 	chiMiddleware "github.com/go-chi/chi/v5/middleware"
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -112,9 +113,20 @@ func main() {
 		})
 	})
 
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:3000"}, // Sesuaikan dengan port Next.js Anda
+		AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Content-Type", "Content-Length", "Authorization"},
+		AllowCredentials: true,
+		Debug:            true, // Set true jika ingin melihat log CORS di terminal
+	})
+
+	handler := c.Handler(r) // Bungkus router chi dengan handler CORS
+
 	addr := fmt.Sprintf(":%s", cfg.Port)
 	log.Printf("Starting server on %s", addr)
-	if err := http.ListenAndServe(addr, r); err != nil {
+
+	if err := http.ListenAndServe(addr, handler); err != nil {
 		log.Fatalf("Server failed: %v", err)
 	}
 }
