@@ -51,8 +51,8 @@ func (h *BudgetHandler) List(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	period := r.Context().Value("period")
-	if period == "" {
+	period, ok := r.Context().Value("period").(string)
+	if !ok || period == "" {
 		respondWithError(w, http.StatusBadRequest, "period query parameter is required (YYYY-MM)")
 		return
 	}
