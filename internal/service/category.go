@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/AankTia/go-fintrack/internal/model"
@@ -23,18 +24,27 @@ func (s *CategoryService) CreateCategory(ctx context.Context, userID string, req
 		return nil, fmt.Errorf("%w: category name is required", ErrInvalidInput)
 	}
 
-	uID := userID
+	existingCats, err := s.repo.GetByUserId(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, cat := range existingCats {
+		if cat.Name == req.Name {
+			return nil, errors.New("category name already exists for this user")
+		}
+	}
+
 	category := &model.Category{
-		UserID: &uID,
+		UserID: &userID,
 		Name:   req.Name,
 		Type:   req.Type,
 		Icon:   req.Icon,
 	}
 
-	// Panggil Repository untuk simpan ke DB
-	err := s.repo.Create(ctx, category)
+	err = s.repo.Create(ctx, category)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create category: %v", err)
+		return nil, err
 	}
 
 	return category, nil

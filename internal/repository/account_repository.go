@@ -8,12 +8,10 @@ import (
 
 type AccountRepository interface {
 	Create(ctx context.Context, account *model.Account) error
-
 	GetById(ctx context.Context, id string, userID string) (*model.Account, error)
-
 	GetByUserId(ctx context.Context, userID string) ([]*model.Account, error)
-
 	UpdateBalance(ctx context.Context, id string, amount int64, userID string) error
+	Delete(ctx context.Context, id string, userID string) error
 }
 
 // Definisikan struct yang menyimpan dependency (database connection)
@@ -94,4 +92,16 @@ func (r *accountRepository) UpdateBalance(ctx context.Context, id string, amount
 	
 	_, err := r.db.Exec(ctx, query, amount, id, userId)
 	return  err
+}
+
+func (r *accountRepository) Delete(ctx context.Context, id string, userID string) error {
+	query := `DELETE FROM accounts WHERE id = $1 AND user_id = $2`
+
+	rows, err := r.db.Query(ctx, query, id, userID)
+	if err != nil {
+		return err
+	}
+	defer rows.Close() // WAJIB tutup rows untuk mencegah memory leak
+
+	return err
 }

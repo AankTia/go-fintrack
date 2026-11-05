@@ -88,3 +88,16 @@ func (s *AccountService) UpdateAccountBalance(ctx context.Context, accounID stri
 
 	return nil
 }
+
+func (s *AccountService) DeleteAccount(ctx context.Context, accountID string, userID string) error {
+	accounts, err := s.repo.GetByUserId(ctx, userID)
+	if err != nil {
+		return err
+	}
+
+	if len(accounts) <= 1 {
+		return errors.New("cannot delete the only remaining account; you must have at least one account")
+	}
+
+	return s.repo.Delete(ctx, accountID, userID)
+}
