@@ -119,8 +119,9 @@ Karena Anda akan mengaplikasikannya secara manual, saya akan memberikan detail k
 
 ### 1. Database Migration
 
-Buat file migrations/000004_create_transactions_table.up.sql:
+Buat file `migrations/000004_create_transactions_table.up.sql`:
 
+```sql
 CREATE TYPE transaction_type AS ENUM ('income', 'expense');
 
 CREATE TABLE transactions (
@@ -138,6 +139,7 @@ CREATE TABLE transactions (
 
 CREATE INDEX idx_transactions_user_date ON transactions(user_id, transaction_date);
 CREATE INDEX idx_transactions_account ON transactions(account_id);
+```
 
 ———
 
