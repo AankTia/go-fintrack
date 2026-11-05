@@ -39,14 +39,17 @@ npx shadcn@latest add button input card form toast dialog
 
 #### 1. Buat file .env.local
 
-Buat di /frontend/.env.local:
+Buat di `/frontend/.env.local`:
 
+```conf
 NEXT_PUBLIC_API_URL=http://localhost:8080/api/v1
+```
 
 #### 2. Buat API Client Wrapper
 
-Buat file di /frontend/lib/api.ts:
+Buat file di `/frontend/lib/api.ts`:
 
+```javascript
 import axios from 'axios';
 
 const api = axios.create({
@@ -78,7 +81,7 @@ api.interceptors.response.use(
 );
 
 export default api;
-
+```
 ———
 
 ### 🛠️ Langkah 3: Implementasi Auth UI & Logic
