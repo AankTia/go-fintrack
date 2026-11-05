@@ -217,11 +217,12 @@ export default function LoginPage() {
 
 ### 🛠️ Langkah 4: Middleware Client-Side (Protection)
 
-Buat file di /frontend/middleware.ts (Root of frontend):
+Buat file di `/frontend/middleware.ts` (Root of frontend):
 Catatan: Karena kita menggunakan localStorage untuk token (client-side), protection yang paling simpel untuk MVP adalah membuat Higher Order Component atau mengecek di layout.
 
-Namun untuk Next.js App Router, buat file /frontend/app/dashboard/layout.tsx:
+Namun untuk Next.js App Router, buat file `/frontend/app/dashboard/layout.tsx`:
 
+```js
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -238,6 +239,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return <>{children}</>;
 }
+```
 
 ### 🏁 Verifikasi Akhir
 
