@@ -64,21 +64,26 @@ func (h *BudgetHandler) List(w http.ResponseWriter, r *http.Request) {
 	}
 
 	respondWithJSON(w, http.StatusOK, budgets)
-
 }
 
-// func (h *AccountHandler) List(w http.ResponseWriter, r *http.Request) {
-// 	userID, ok := r.Context().Value("user_id").(string)
-// 	if !ok {
-// 		respondWithError(w, http.StatusUnauthorized, "unauthorized")
-// 		return
-// 	}
+func (h *BudgetHandler) GetStatus(w http.ResponseWriter, r *http.Request) {
+	userID, ok := r.Context().Value("user_id").(string)
+	if !ok {
+		respondWithError(w, http.StatusUnauthorized, "unauthorized")
+		return
+	}
 
-// 	accounts, err := h.svc.GetMyAccounts(r.Context(), userID)
-// 	if err != nil {
-// 		respondWithError(w, http.StatusInternalServerError, "failed to fetch accounts")
-// 		return
-// 	}
+	period, ok := r.Context().Value("period").(string)
+	if !ok || period == "" {
+		respondWithError(w, http.StatusBadRequest, "period query parameter is required (YYYY-MM)")
+		return
+	}
 
-// 	respondWithJSON(w, http.StatusOK, accounts)
-// }
+	statuses, err := h.svc.GetBudgetStatus(r.Context(), userID, period)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "failed to calculate budget")
+		return
+	}
+
+	respondWithJSON(w, http.StatusOK, statuses)
+}

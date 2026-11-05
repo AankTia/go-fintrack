@@ -364,6 +364,7 @@ Tambahkan endpoint baru untuk menampilkan status budget.
 
 Tambahkan Method Baru:
 
+```go
 func (h *BudgetHandler) GetStatus(c *gin.Context) {
 	userID := uuid.MustParse(c.GetString("user_id"))
 	period := c.Query("period")
@@ -379,6 +380,7 @@ func (h *BudgetHandler) GetStatus(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, statuses)
 }
+```
 
 ———
 
