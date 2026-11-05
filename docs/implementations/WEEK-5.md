@@ -137,8 +137,9 @@ func (r *budgetRepository) Delete(ctx context.Context, userID uuid.UUID, budgetI
 
 ### 4. Service Layer (internal/service/budget.go)
 
-Buat file baru di internal/service/budget.go.
+Buat file baru di `internal/service/budget.go`.
 
+```go
 package service
 
 import (
@@ -178,6 +179,7 @@ func (s *budgetService) SetBudget(ctx context.Context, userID uuid.UUID, req mod
 func (s *budgetService) GetBudgets(ctx context.Context, userID uuid.UUID, period string) ([]model.Budget, error) {
 	return s.repo.GetByPeriod(ctx, userID, period)
 }
+```
 
 ———
 
