@@ -17,8 +17,8 @@ Buat file migration baru (misal: `000004_create_transactions_table.up.sql`) untu
 
 Buat file baru untuk mendefinisikan entity dan DTO:
 
-- type Transaction (Entity untuk DB)
-- type CreateTransactionRequest (DTO untuk input API: account_id, category_id, amount, type, description, date).
+- `type Transaction` (Entity untuk DB)
+- `type CreateTransactionRequest` (DTO untuk input API: account_id, category_id, amount, type, description, date).
 
 #### Step 3: Transaction Repository (`internal/repository/transaction_repository.go`)
 
@@ -143,10 +143,11 @@ CREATE INDEX idx_transactions_account ON transactions(account_id);
 
 ———
 
-### 2. Internal Model (internal/model/transaction.go)
+### 2. Internal Model (`internal/model/transaction.go`)
 
 Buat file baru untuk entity dan DTO.
 
+```go
 package model
 
 import "time"
@@ -172,7 +173,7 @@ type CreateTransactionRequest struct {
 	Description string `json:"description"`
 	Date        string `json:"date"` // Format YYYY-MM-DD
 }
-
+```
 ———
 
 ### 3. Transaction Repository (internal/repository/transaction_repository.go)
