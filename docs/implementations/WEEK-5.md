@@ -277,10 +277,13 @@ Kita butuh query untuk mengambil total pengeluaran per kategori dalam satu perio
 
 Tambahkan ke Interface:
 
+```go
 GetActualSpend(ctx context.Context, userID uuid.UUID, categoryID uuid.UUID, period string) (int64, error)
+```
 
 Tambahkan Implementasi:
 
+```go
 func (r *budgetRepository) GetActualSpend(ctx context.Context, userID uuid.UUID, categoryID uuid.UUID, period string) (int64, error) {
 	var total int64
 	// Menghitung sum amount dari transaksi dengan tipe 'expense'
@@ -296,6 +299,7 @@ func (r *budgetRepository) GetActualSpend(ctx context.Context, userID uuid.UUID,
 	err := r.db.QueryRowContext(ctx, query, userID, categoryID, period).Scan(&total)
 	return total, err
 }
+```
 
 ———
 

@@ -11,6 +11,7 @@ type BudgetRepository interface {
 	Upsert(ctx context.Context, budget *model.Budget) error
 	GetByPeriod(ctx context.Context, userID string, period string) ([]model.Budget, error)
 	Delete(ctx context.Context, userID string, budgetID string) error
+	GetActualSpend(ctx context.Context, userID string, categoryID string, period string) (int64, error)
 }
 
 type budgetRepository struct {
@@ -57,4 +58,19 @@ func (r *budgetRepository) Delete(ctx context.Context, userID string, budgetID s
 	query := `DELETE FROM budgets WHERE id = $1 AND user_id = $2`
 	_, err := r.db.Exec(ctx, query, budgetID, userID)
 	return err
+}
+
+func (r *budgetRepository) GetActualSpend(ctx context.Context, userID string, categoryID string, period string) (int64, error) {
+	var total int64
+
+	// Menghitung sum amount dari transaksi dengan tipe 'expense'
+	query := `SELECT COALASCE(SUM(amount), 0)
+						FROM transactions
+						WHERE user_id = $1
+						AND category_id = $2
+						AND to_char(transaction_date, 'YYYY-MM') = $3
+						AND type = 'expense'`
+
+	err := r.db.QueryRow(ctx, query, userID, categoryID, period).Scan(&total)
+	return total, err
 }
