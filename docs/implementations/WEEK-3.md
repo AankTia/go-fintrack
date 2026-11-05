@@ -176,7 +176,7 @@ type CreateTransactionRequest struct {
 ```
 ———
 
-### 3. Transaction Repository (internal/repository/transaction_repository.go)
+### 3. Transaction Repository (`internal/repository/transaction_repository.go`)
 
 Implementasikan interface untuk akses DB. Perhatikan penggunaan `pgx.Tx` agar bisa mendukung transaksi atomik dari layer service.
 
@@ -235,10 +235,11 @@ func (r *transactionRepository) GetById(ctx context.Context, id string, userID s
 
 ———
 
-### 4. Transaction Service (internal/service/transaction.go)
+### 4. Transaction Service (`internal/service/transaction.go`)
 
-Ini adalah bagian terpenting. Service harus mengelola pgx.Tx untuk menjamin atomicity.
+Ini adalah bagian terpenting. Service harus mengelola `pgx.Tx` untuk menjamin atomicity.
 
+```go
 package service
 
 import (
@@ -331,6 +332,7 @@ func (s *TransactionService) updateBalanceWithTx(ctx context.Context, tx pgx.Tx,
 	_, err := tx.Exec(ctx, query, amount, accountID, userID)
 	return err
 }
+```
 
 ———
 
