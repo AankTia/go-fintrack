@@ -88,8 +88,9 @@ export default api;
 
 #### 1. Schema Validasi (Zod)
 
-Buat file di /frontend/lib/validations/auth.ts:
+Buat file di `/frontend/lib/validations/auth.ts`:
 
+```js
 import * as z from "zod";
 
 export const registerSchema = z.object({
@@ -102,9 +103,11 @@ export const loginSchema = z.object({
   email: z.string().email("Email tidak valid"),
   password: z.string().min(1, "Password wajib diisi"),
 });
+```
 
 #### 2. Halaman Register (/frontend/app/register/page.tsx)
 
+```js
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -155,9 +158,11 @@ export default function RegisterPage() {
     </div>
   );
 }
+```
 
 #### 3. Halaman Login (/frontend/app/login/page.tsx)
 
+```js
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -206,6 +211,7 @@ export default function LoginPage() {
     </div>
   );
 }
+```
 
 ———
 
