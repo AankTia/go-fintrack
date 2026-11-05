@@ -185,8 +185,9 @@ func (s *budgetService) GetBudgets(ctx context.Context, userID uuid.UUID, period
 
 ### 5. Handler Layer (internal/handler/budget.go)
 
-Buat file baru di internal/handler/budget.go.
+Buat file baru di `internal/handler/budget.go`.
 
+```go
 package handler
 
 import (
@@ -237,6 +238,7 @@ func (h *BudgetHandler) List(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, budgets)
 }
+```
 
 ### Catatan untuk Registrasi di main.go atau Router:
 

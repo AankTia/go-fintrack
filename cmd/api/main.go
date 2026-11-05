@@ -61,6 +61,10 @@ func main() {
 	dashboardSvc := service.NewDashboardService(accountRepo, transactionRepo)
 	dashboardHdl := handler.NewDashboardHandler(dashboardSvc)
 
+	budgetRepo := repository.NewBudgetRepository(platform.DB)
+	budgetSvc := service.NewBudgetService(budgetRepo)
+	budgetHdl := handler.NewBudgetHandler(budgetSvc)
+
 	// ---------------------------------------------------------
 	// ROUTING
 	// ---------------------------------------------------------
@@ -101,6 +105,9 @@ func main() {
 
 			r.Get("/dashboard/summary", dashboardHdl.GetSummary)
 			r.Get("/dashboard/breakdown", dashboardHdl.GetBreakdown)
+
+			r.Post("/budgets", budgetHdl.CreateOrUpdate)
+			r.Get("/budgets", budgetHdl.List)
 		})
 	})
 

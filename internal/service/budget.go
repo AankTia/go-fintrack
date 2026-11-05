@@ -9,7 +9,7 @@ import (
 
 type BudgetService interface {
 	SetBudget(ctx context.Context, userID string, req model.CreateBudgetRequest) (*model.Budget, error)
-	GetBudget(ctx context.Context, userID string, period string) ([]model.Budget, error)
+	GetBudgets(ctx context.Context, userID string, period string) ([]model.Budget, error)
 }
 
 type budgetService struct {
@@ -35,6 +35,6 @@ func (s *budgetService) SetBudget(ctx context.Context, userID string, req model.
 	return budget, nil
 }
 
-func (s *budgetService) GetBudget(ctx context.Context, userID string, period string) ([]model.Budget, error) {
+func (s *budgetService) GetBudgets(ctx context.Context, userID string, period string) ([]model.Budget, error) {
 	return s.repo.GetByPeriod(ctx, userID, period)
 }
