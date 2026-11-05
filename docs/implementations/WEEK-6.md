@@ -2,27 +2,36 @@
 
 ## Day 16: Next.js Setup & Auth UI
 
-Saya menyarankan struktur: /Users/tiawidi/Developments/Github/go-fintrack/frontend agar terpisah dari kode Go.
+Saya menyarankan struktur: `go-fintrack/frontend` agar terpisah dari kode Go.
 
 ### 🛠️ Langkah 1: Inisialisasi Project & Dependencies
 
 Jalankan perintah ini di terminal (di root project):
 
-# 1. Create Next.js App
+#### 1. Create Next.js App
+```bash
 npx create-next-app@latest frontend --typescript --tailwind --eslint --app
 
 # Masuk ke folder frontend
-cd frontend
+cd frontend 
+```
 
-# 2. Install Core Dependencies
+#### 2. Install Core Dependencies
+```bash
 npm install axios @tanstack/react-query zod react-hook-form @hookform/resolvers lucide-react
+```
 
-# 3. Init shadcn/ui
-npx shadcn-ui@latest init
+#### 3. Init shadcn/ui
+```bash
+npx shadcn@latest init
 # Pilih: Default style, Slate color, CSS variables: Yes
+```
 
-# 4. Install UI Components yang dibutuhkan
-npx shadcn-ui@latest add button input card form toast dialog
+#### 4. Install UI Components yang dibutuhkan
+
+```bash
+npx shadcn@latest add button input card form toast dialog
+```
 
 ———
 
