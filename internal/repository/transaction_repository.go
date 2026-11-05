@@ -15,7 +15,7 @@ type TransactionRepository interface {
 	List(ctx context.Context, userID string, filter model.TransactionListRequest, offset, limit int) ([]*model.TransactionResponse, int64, error)
 	Update(ctx context.Context, tx pgx.Tx, t *model.Transaction) error
 	Delete(ctx context.Context, tx pgx.Tx, id string) error
-	GetMonthlySummary(ctx context.Context, userID int64, month int, year int) (income int64, expense int64, err error)
+	GetMonthlySummary(ctx context.Context, userID string, month int, year int) (income int64, expense int64, err error)
 }
 
 type transactionRepository struct {
@@ -120,7 +120,7 @@ func (r *transactionRepository) Delete(ctx context.Context, tx pgx.Tx, id string
 	return err
 }
 
-func (r *transactionRepository) GetMonthlySummary(ctx context.Context, userID int64, month int, year int) (income int64, expense int64, err error) {
+func (r *transactionRepository) GetMonthlySummary(ctx context.Context, userID string, month int, year int) (income int64, expense int64, err error) {
 	query := `
 		SELECT 
 			SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END),

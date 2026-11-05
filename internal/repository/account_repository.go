@@ -12,7 +12,7 @@ type AccountRepository interface {
 	GetByUserId(ctx context.Context, userID string) ([]*model.Account, error)
 	UpdateBalance(ctx context.Context, id string, amount int64, userID string) error
 	Delete(ctx context.Context, id string, userID string) error
-	GetTotalBalance(ctx context.Context, userID int64) (int64, error)
+	GetTotalBalance(ctx context.Context, userID string) (int64, error)
 }
 
 // Definisikan struct yang menyimpan dependency (database connection)
@@ -107,7 +107,7 @@ func (r *accountRepository) Delete(ctx context.Context, id string, userID string
 	return err
 }
 
-func (r *accountRepository) GetTotalBalance(ctx context.Context, userID int64) (int64, error) {
+func (r *accountRepository) GetTotalBalance(ctx context.Context, userID string) (int64, error) {
 	var total int64
 	query := `SELECT COALESCE(SUM(balance), 0) FROM accounts WHERE user_id = $1`
 

@@ -9,7 +9,7 @@ import (
 )
 
 type DashboardService interface {
-	GetSummary(ctx context.Context, userID int64, mont int, year int) (*model.DashboardSummary, error)
+	GetSummary(ctx context.Context, userID string, mont int, year int) (*model.DashboardSummary, error)
 }
 
 type dashboardService struct {
@@ -24,7 +24,7 @@ func NewDashboardService(accRepo repository.AccountRepository, txRepo repository
 	}
 }
 
-func (s *dashboardService) GetSummary(ctx context.Context, userID int64, month int, year int) (*model.DashboardSummary, error) {
+func (s *dashboardService) GetSummary(ctx context.Context, userID string, month int, year int) (*model.DashboardSummary, error) {
 	balance, err := s.accountRepo.GetTotalBalance(ctx, userID)
 	if err != nil {
 		return nil, err

@@ -58,8 +58,7 @@ func main() {
 	transactionSvc := service.NewTransactionService(platform.DB, transactionRepo, accountRepo, categoryRepo)
 	transactionHdl := handler.NewTransactionHandler(transactionSvc)
 
-	dashboardRepo := repository.NewDashboardRepository(platform.DB)
-	dashboardSvc := service.NewDashboardService(dashboardRepo)
+	dashboardSvc := service.NewDashboardService(accountRepo, transactionRepo)
 	dashboardHdl := handler.NewDashboardHandler(dashboardSvc)
 
 	// ---------------------------------------------------------
