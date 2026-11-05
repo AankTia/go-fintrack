@@ -47,10 +47,12 @@ func main() {
 	// DEPENDENCY INJECTION (THE WIRING)
 	// ---------------------------------------------------------
 	accountRepo := repository.NewAccountRepository(platform.DB)
-
 	accountSvc := service.NewAccountService(accountRepo)
-
 	accountHdl := handler.NewAccountHandler(accountSvc)
+
+	categoryRepo := repository.NewCategoryRepository(platform.DB)
+	categorySvc := service.NewCategoryService(categoryRepo)
+	categoryHdl := handler.NewCategoryHandler(categorySvc)
 
 	// ---------------------------------------------------------
 	// ROUTING
@@ -80,6 +82,10 @@ func main() {
 			r.Post("/accounts", accountHdl.Create)
 			r.Get("/accounts", accountHdl.List)
 			r.Get("/accounts/{id}", accountHdl.GetDetail)
+
+			r.Post("/categories", categoryHdl.Create)
+			r.Get("/categories", categoryHdl.List)
+			r.Delete("/categories/{id}", categoryHdl.Delete)
 		})
 	})
 

@@ -50,12 +50,12 @@ Fokus: Implementasi fitur pengelolaan akun keuangan pengguna.
 
 - [x] POST /api/v1/accounts: Create new account.
 - [x] GET /api/v1/accounts: List all user accounts.
-- [ ] Integrasi dengan Auth Middleware untuk mengambil user_id dari JWT token.
+- [x] Integrasi dengan Auth Middleware untuk mengambil user_id dari JWT token.
 
 ### 5.4 Verification
 
-- [ ] Test: Buat akun → Cek apakah tersimpan dengan user_id yang benar.
-- [ ] Test: Coba akses akun milik user lain via ID → Harus return 403 Forbidden/404 Not Found.
+- [x] Test: Buat akun → Cek apakah tersimpan dengan user_id yang benar.
+- [x] Test: Coba akses akun milik user lain via ID → Harus return 403 Forbidden/404 Not Found.
 
 ———
 
@@ -65,19 +65,19 @@ Fokus: Implementasi pengelompokan transaksi.
 
 ### 6.1 Category Repository Implementation
 
-- [ ] Implementasi CRUD kategori.
-- [ ] Logic khusus: Kategori bisa bersifat "Global" (user_id IS NULL) atau "Custom" (user_id NOT NULL).
+- [x] Implementasi CRUD kategori.
+- [x] Logic khusus: Kategori bisa bersifat "Global" (user_id IS NULL) atau "Custom" (user_id NOT NULL).
 
 ### 6.2 Category Service Logic
 
-- [ ] CreateCategory: Pastikan tidak ada nama kategori duplikat untuk user yang sama.
-- [ ] GetCategories: Gabungkan kategori global + kategori custom milik user.
+- [x] CreateCategory: Pastikan tidak ada nama kategori duplikat untuk user yang sama.
+- [x] GetCategories: Gabungkan kategori global + kategori custom milik user.
 
 ### 6.3 Category Handler & Routing
 
-- [ ] POST /api/v1/categories: Create custom category.
-- [ ] GET /api/v1/categories: Get all available categories.
-- [ ] DELETE /api/v1/categories/{id}: Hapus custom category.
+- [x] POST /api/v1/categories: Create custom category.
+- [x] GET /api/v1/categories: Get all available categories.
+- [x] DELETE /api/v1/categories/{id}: Hapus custom category.
 
 ### 6.4 Verification & Unit Test
 
@@ -88,7 +88,7 @@ Fokus: Implementasi pengelompokan transaksi.
 
 ## ✅ Acceptance Criteria (End of Week 2)
 
-- [ ] Schema Valid: Tabel accounts dan categories ada di DB dengan foreign key ke users.
+- [x] Schema Valid: Tabel accounts dan categories ada di DB dengan foreign key ke users.
 - [ ] No Floats: Tidak ada penggunaan float32/64 untuk field saldo/nominal uang di seluruh kode.
 - [ ] Strict Ownership: Terverifikasi bahwa user tidak bisa memanipulasi akun/kategori milik user lain.
 - [ ] API Working: Endpoint CRUD Account dan Category berfungsi dan terproteksi JWT.
