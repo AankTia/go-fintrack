@@ -255,8 +255,9 @@ Jangan lupa untuk melakukan inisialisasi dependency injection:
 
 ### 1. Model Layer (internal/model/budget.go)
 
-Tambahkan struct baru untuk response status budget. Tambahkan ini di bagian bawah file internal/model/budget.go yang sudah Anda buat sebelumnya.
+Tambahkan struct baru untuk response status budget. Tambahkan ini di bagian bawah file `internal/model/budget.go` yang sudah Anda buat sebelumnya.
 
+```go
 type BudgetStatus struct {
 	CategoryID   uuid.UUID `json:"category_id"`
 	CategoryName string    `json:"category_name"`
@@ -266,6 +267,7 @@ type BudgetStatus struct {
 	Percentage   float64   `json:"percentage"`
 	IsOverlimit  bool      `json:"is_overlimit"`
 }
+```
 
 ———
 

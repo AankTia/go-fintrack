@@ -17,3 +17,13 @@ type CreateBudgetRequest struct {
 	Amount     int64  `json:"amount" validate:"required,gt=0"`
 	Period     string `json:"period" validate:"required,len=7"` // YYYY-MM
 }
+
+type BudgetStatus struct {
+	CategoryID   string  `json:"category_id"`
+	CategoryName string  `json:"category_name"`
+	BudgetLimit  int64   `json:"budget_limit"`
+	ActualSpend  int64   `json:"actual_spend"`
+	Remaining    int64   `json:"remaining"`
+	Percentage   float64 `json:"percentage"`
+	IsOverlimit  bool    `json:"is_overlimit"`
+}
