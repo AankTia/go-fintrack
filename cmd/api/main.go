@@ -91,7 +91,10 @@ func main() {
 			r.Get("/categories", categoryHdl.List)
 			r.Delete("/categories/{id}", categoryHdl.Delete)
 
+			r.Get("/transactions", transactionHdl.List)
 			r.Post("/transactions", transactionHdl.Create)
+			r.Patch("/transactions/{id}", transactionHdl.Update)
+			r.Delete("/transactions/{id}", transactionHdl.Delete)
 		})
 	})
 

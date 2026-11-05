@@ -90,3 +90,91 @@ func (s *TransactionService) updateBalanceWithTx(ctx context.Context, tx pgx.Tx,
 	_, err := tx.Exec(ctx, query, amount, accountID, userID)
 	return err
 }
+
+func (s *TransactionService) ListTransactions(ctx context.Context, userID string, req model.TransactionListRequest) ([]*model.TransactionResponse, model.PaginationMeta, error) {
+	if req.Page <= 0 { req.Page = 1 }
+	if req.Limit <= 0 { req.Limit = 10 }
+
+	offset := (req.Page - 1) * req.Limit
+
+	data, total, err := s.txRepo.List(ctx, userID, req, offset, req.Limit)
+	if err != nil {
+		return nil, model.PaginationMeta{}, err
+	}
+
+	meta := model.PaginationMeta{
+		Total: total,
+		Page:  req.Page,
+		Limit: req.Limit,
+	}
+
+	return data, meta, nil
+}
+
+func (s *TransactionService) UpdateTransaction(ctx context.Context, userID string, transactionID string, req model.CreateTransactionRequest) (*model.Transaction, error) {
+	// 1. Get old transaction
+	oldTx, err := s.txRepo.GetById(ctx, transactionID, userID)
+	if err != nil {
+		return nil, fmt.Errorf("transaction not found")
+	}
+
+	tx, err := s.db.Begin(ctx)
+	if err != nil { return nil, err }
+	defer tx.Rollback(ctx)
+
+	// 2. REVERSE old balance
+	oldBalanceChange := oldTx.Amount
+	if oldTx.Type == "expense" { oldBalanceChange = -oldTx.Amount }
+	if err := s.updateBalanceWithTx(ctx, tx, oldTx.AccountId, -oldBalanceChange, userID); err != nil {
+		return nil, err
+	}
+
+	// 3. Update transaction record
+	tDate, _ := time.Parse("2006-01-02", req.Date)
+	updatedTx := &model.Transaction{
+		ID:              transactionID,
+		UserID:          userID,
+		AccountId:       req.AccountId,
+		CategoryId:      req.CategoryId,
+		Amount:          req.Amount,
+		Type:            req.Type,
+		Description:     req.Description,
+		TransactionDate: tDate,
+	}
+	if err := s.txRepo.Update(ctx, tx, updatedTx); err != nil {
+		return nil, err
+	}
+
+	// 4. APPLY new balance
+	newBalanceChange := req.Amount
+	if req.Type == "expense" { newBalanceChange = -req.Amount }
+	if err := s.updateBalanceWithTx(ctx, tx, req.AccountId, newBalanceChange, userID); err != nil {
+		return nil, err
+	}
+
+	if err := tx.Commit(ctx); err != nil { return nil, err }
+	return updatedTx, nil
+}
+
+func (s *TransactionService) DeleteTransaction(ctx context.Context, userID string, transactionID string) error {
+	oldTx, err := s.txRepo.GetById(ctx, transactionID, userID)
+	if err != nil { return fmt.Errorf("transaction not found") }
+
+	tx, err := s.db.Begin(ctx)
+	if err != nil { return err }
+	defer tx.Rollback(ctx)
+
+	// Reverse balance
+	balanceChange := oldTx.Amount
+	if oldTx.Type == "expense" { balanceChange = -oldTx.Amount }
+	if err := s.updateBalanceWithTx(ctx, tx, oldTx.AccountId, -balanceChange, userID); err != nil {
+		return err
+	}
+
+	// Delete record
+	if err := s.txRepo.Delete(ctx, tx, transactionID); err != nil {
+		return err
+	}
+
+	return tx.Commit(ctx)
+}

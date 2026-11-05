@@ -2,6 +2,8 @@ package repository
 
 import (
 	"context"
+	"fmt"
+
 	"github.com/AankTia/go-fintrack/internal/model"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -10,6 +12,9 @@ import (
 type TransactionRepository interface {
 	Create(ctx context.Context, tx pgx.Tx, t *model.Transaction) error
 	GetById(ctx context.Context, id string, userID string) (*model.Transaction, error)
+	List(ctx context.Context, userID string, filter model.TransactionListRequest, offset, limit int) ([]*model.TransactionResponse, int64, error)
+	Update(ctx context.Context, tx pgx.Tx, t *model.Transaction) error
+	Delete(ctx context.Context, tx pgx.Tx, id string) error
 }
 
 type transactionRepository struct {
@@ -45,4 +50,71 @@ func (r *transactionRepository) GetById(ctx context.Context, id string, userID s
 	}
 
 	return &t, nil
+}
+
+func (r *transactionRepository) List(ctx context.Context, userID string, filter model.TransactionListRequest, offset, limit int) ([]*model.TransactionResponse, int64, error) {
+	baseQuery := `FROM transactions t
+							 	JOIN accounts a ON t.account_id = a.id
+							 	JOIN categories c ON t.category_id = c.id
+							 	WHERE t.user_id = $1`
+
+	args := []interface{}{userID}
+	argCount := 2
+
+	if filter.Type != "" {
+		args = append(args, filter.Type)
+		baseQuery += fmt.Sprintf(" AND t.type = $%d", argCount)
+		argCount++
+	}
+	if filter.AccountID != "" {
+		args = append(args, filter.AccountID)
+		baseQuery += fmt.Sprintf(" AND t.account_id = $%d", argCount)
+		argCount++
+	}
+	if filter.StartDate != "" && filter.EndDate != "" {
+		args = append(args, filter.StartDate, filter.EndDate)
+		baseQuery += fmt.Sprintf(" AND t.transaction_date BETWEEN $%d AND $%d", argCount, argCount+1)
+		argCount += 2
+	}
+
+	// Count total
+	var total int64
+	err := r.db.QueryRow(ctx, "SELECT count(*) "+baseQuery, args...).Scan(&total)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	// Fetch data
+	query := fmt.Sprintf("SELECT t.id, t.user_id, t.account_id, t.category_id, t.amount, t.type, t.description, t.transaction_date, a.name, c.name %s ORDER BY t.transaction_date DESC LIMIT %d OFFSET %d", baseQuery, limit, offset)
+
+	rows, err := r.db.Query(ctx, query, args...)
+	if err != nil {
+		return nil, 0, err
+	}
+	defer rows.Close()
+
+	var transactions []*model.TransactionResponse
+	for rows.Next() {
+		var tr model.TransactionResponse
+		err := rows.Scan(&tr.ID, &tr.UserID, &tr.AccountId, &tr.CategoryId, &tr.Amount, &tr.Type, &tr.Description, &tr.TransactionDate, &tr.AccountName, &tr.CategoryName)
+		if err != nil {
+			return nil, 0, err
+		}
+		transactions = append(transactions, &tr)
+	}
+
+	return transactions, total, nil
+
+}
+
+func (r *transactionRepository) Update(ctx context.Context, tx pgx.Tx, t *model.Transaction) error {
+	query := `UPDATE transactions SET account_id=$1, category_id=$2, amount=$3, type=$4, description=$5, transaction_date=$6, updated_at=NOW() WHERE id=$7`
+	_, err := tx.Exec(ctx, query, t.AccountId, t.CategoryId, t.Amount, t.Type, t.Description, t.TransactionDate, t.ID)
+	return err
+}
+
+func (r *transactionRepository) Delete(ctx context.Context, tx pgx.Tx, id string) error {
+	query := `DELETE FROM transactions WHERE id=$1`
+	_, err := tx.Exec(ctx, query, id)
+	return err
 }
