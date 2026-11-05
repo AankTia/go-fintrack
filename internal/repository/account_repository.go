@@ -32,7 +32,7 @@ func NewAccountRepository(db *pgxpool.Pool) AccountRepository {
 func (r *accountRepository) Create(ctx context.Context, account *model.Account) error {
 	// Gunakan query parameterized ($1, $2, dst) untuk mencegah SQL Injection
 	query := `INSERT INTO accounts (user_id, name, type, balance, currency)
-						VALUE ($1, $2, $3, $4, $5)
+						VALUES ($1, $2, $3, $4, $5)
 						RETURNING id`
 
 	// ExecQuery digunakan karena kita butuh return value (id)
