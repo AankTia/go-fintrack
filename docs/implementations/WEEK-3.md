@@ -338,6 +338,7 @@ func (s *TransactionService) updateBalanceWithTx(ctx context.Context, tx pgx.Tx,
 
 ### 5. Transaction Handler (internal/handler/transaction.go)
 
+```go
 package handler
 
 import (
@@ -371,6 +372,7 @@ func (h *TransactionHandler) Create(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, tx)
 }
+```
 
 ### 💡 Catatan Penting untuk Implementasi Manual:
 

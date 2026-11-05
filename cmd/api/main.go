@@ -8,8 +8,8 @@ import (
 
 	"github.com/AankTia/go-fintrack/internal/handler"
 	"github.com/AankTia/go-fintrack/internal/middleware"
-	"github.com/AankTia/go-fintrack/internal/repository"
 	"github.com/AankTia/go-fintrack/internal/platform"
+	"github.com/AankTia/go-fintrack/internal/repository"
 	"github.com/AankTia/go-fintrack/internal/service"
 	"github.com/go-chi/chi/v5"
 	chiMiddleware "github.com/go-chi/chi/v5/middleware"
@@ -54,6 +54,10 @@ func main() {
 	categorySvc := service.NewCategoryService(categoryRepo)
 	categoryHdl := handler.NewCategoryHandler(categorySvc)
 
+	transactionRepo := repository.NewTransactionRepository(platform.DB)
+	transactionSvc := service.NewTransactionService(platform.DB, transactionRepo, accountRepo, categoryRepo)
+	transactionHdl := handler.NewTransactionHandler(transactionSvc)
+
 	// ---------------------------------------------------------
 	// ROUTING
 	// ---------------------------------------------------------
@@ -70,8 +74,8 @@ func main() {
 	})
 
 	// Grup API v1
-	r.Route("/api/v1", func(r chi.Router){
-		// Route Public 
+	r.Route("/api/v1", func(r chi.Router) {
+		// Route Public
 		r.Post("/auth/register", handler.RegisterHandler)
 		r.Post("/auth/login", handler.LoginHandler)
 
@@ -86,6 +90,8 @@ func main() {
 			r.Post("/categories", categoryHdl.Create)
 			r.Get("/categories", categoryHdl.List)
 			r.Delete("/categories/{id}", categoryHdl.Delete)
+
+			r.Post("/transactions", transactionHdl.Create)
 		})
 	})
 
