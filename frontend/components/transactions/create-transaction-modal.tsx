@@ -22,6 +22,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/toast";
+import { useEffect } from "react";
 
 const txSchema = z.object({
   account_id: z.string().min(1, "Pilih akun"),
@@ -38,9 +39,13 @@ export function CreateTransactionModal() {
     resolver: zodResolver(txSchema),
     defaultValues: {
       type: "expense",
-      date: new Date().toISOString().split("T")[0],
+      date: "",
     },
   });
+
+  useEffect(() => {
+    form.setValue("date", new Date().toISOString().split("T")[0]);
+  }, [form]);
 
   // Fetch data untuk dropdown
   const { data: accounts } = useQuery({
@@ -64,9 +69,7 @@ export function CreateTransactionModal() {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="destructive">+ Catat Transaksi</Button>
-      </DialogTrigger>
+      <DialogTrigger render={<Button>+ Catat Transaksi</Button>} />
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Tambah Transaksi</DialogTitle>
@@ -156,12 +159,7 @@ export function CreateTransactionModal() {
             render={({ field, fieldState }) => (
               <Field invalid={fieldState.invalid}>
                 <FieldLabel htmlFor="amount">Nominal</FieldLabel>
-                <Input
-                  {...field}
-                  id="amount"
-                  type="number"
-                  value={0}
-                />
+                <Input {...field} id="amount" type="number" value={0} />
                 <FieldError>{fieldState.error?.message}</FieldError>
               </Field>
             )}
@@ -173,10 +171,7 @@ export function CreateTransactionModal() {
             render={({ field, fieldState }) => (
               <Field invalid={fieldState.invalid}>
                 <FieldLabel htmlFor="description">Keterangan</FieldLabel>
-                <Input
-                  {...field}
-                  id="description"
-                />
+                <Input {...field} id="description" />
                 <FieldError>{fieldState.error?.message}</FieldError>
               </Field>
             )}

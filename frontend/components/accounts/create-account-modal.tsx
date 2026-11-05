@@ -40,9 +40,7 @@ export function CreateAccountModal() {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button>+ Tambah Akun</Button>
-      </DialogTrigger>
+      <DialogTrigger render={<Button>+ Tambah Akun</Button>} />
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Tambah Akun Baru</DialogTitle>

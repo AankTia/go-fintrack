@@ -11,11 +11,11 @@ import {
 } from "@/components/ui/table";
 
 export function TransactionTable() {
-  const { data: transactions, isLoading } = useQuery({
+  const { data: transactions = [], isLoading } = useQuery({
     queryKey: ["transactions"],
     queryFn: async () => {
       const res = await api.get("/transactions");
-      return res.data;
+      return res.data.data;
     },
   });
 

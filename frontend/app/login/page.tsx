@@ -26,7 +26,7 @@ export default function LoginPage() {
       const response = await api.post("/auth/login", values);
       localStorage.setItem("token", response.data.token);
       toast.add({ title: "Welcome back!" });
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
     } catch (error: unknown) {
       let message = "Kredensial salah";
 
