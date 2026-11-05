@@ -36,8 +36,9 @@ DROP TABLE IF EXISTS budgets;
 
 ### 2. Model Layer (internal/model/budget.go)
 
-Buat file baru di internal/model/budget.go.
+Buat file baru di `internal/model/budget.go`.
 
+```go
 package model
 
 import (
@@ -60,6 +61,7 @@ type CreateBudgetRequest struct {
 	Amount     int64     `json:"amount" validate:"required,gt=0"`
 	Period     string    `json:"period" validate:"required,len=7"` // YYYY-MM
 }
+```
 
 ———
 
