@@ -29,6 +29,16 @@ func (h *TransactionHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if req.Amount <= 0 {
+		respondWithError(w, http.StatusBadRequest, "amount must be greater than 0")
+		return
+	}
+
+	if req.Type != "income" && req.Type != "expense" {
+		respondWithError(w, http.StatusBadRequest, "type mus be either 'income' or 'expense'")
+		return
+	}
+
 	transaction, err := h.svc.CreateTransaction(r.Context(), userID, req)
 	if err != nil {
 		if errors.Is(err, service.ErrInvalidInput) {
