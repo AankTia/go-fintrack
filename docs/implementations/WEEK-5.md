@@ -8,6 +8,7 @@ Buat file migration baru. Saya asumsikan Anda menggunakan penamaan timestamp ata
 
 SQL (Up):
 
+```sql
 CREATE TABLE budgets (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL,
@@ -23,10 +24,13 @@ CREATE TABLE budgets (
 );
 
 CREATE INDEX idx_budgets_user_period ON budgets(user_id, period);
+```
 
 SQL (Down):
 
+```sql
 DROP TABLE IF EXISTS budgets;
+```
 
 ———
 
