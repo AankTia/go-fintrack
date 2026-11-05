@@ -6,11 +6,16 @@
 go run cmd/api/main.go
 ```
 
+go clean -modcache
+go mod tidy
+go test ./internal/service/... -v
+
 ## Create Migration
 
 ```bash
 migrate create -ext sql -dir migrations -seq create_users_table
 ```
+
 
 ## Docker
 

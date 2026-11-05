@@ -89,7 +89,7 @@ Fokus: Implementasi pengelompokan transaksi.
 ## ✅ Acceptance Criteria (End of Week 2)
 
 - [x] Schema Valid: Tabel accounts dan categories ada di DB dengan foreign key ke users.
-- [ ] No Floats: Tidak ada penggunaan float32/64 untuk field saldo/nominal uang di seluruh kode.
-- [ ] Strict Ownership: Terverifikasi bahwa user tidak bisa memanipulasi akun/kategori milik user lain.
-- [ ] API Working: Endpoint CRUD Account dan Category berfungsi dan terproteksi JWT.
-- [ ] Code Quality: Repository menggunakan interface, memudahkan unit testing di minggu berikutnya.
+- [x] No Floats: Tidak ada penggunaan float32/64 untuk field saldo/nominal uang di seluruh kode.
+- [x] Strict Ownership: Terverifikasi bahwa user tidak bisa memanipulasi akun/kategori milik user lain.
+- [x] API Working: Endpoint CRUD Account dan Category berfungsi dan terproteksi JWT.
+- [x] Code Quality: Repository menggunakan interface, memudahkan unit testing di minggu berikutnya.
