@@ -346,3 +346,90 @@ Setelah implementasi, lakukan pengujian berikut:
 2. Security (Ownership): Coba panggil endpoint dengan token User A, pastikan tidak ada data User B yang muncul (sudah tercover oleh WHERE user_id = $1 di repo).
 3. Empty State: Jika bulan tersebut tidak ada pengeluaran, pastikan API mengembalikan array kosong [], bukan error 500.
 4. Sorting: Pastikan kategori dengan nominal terbesar muncul paling atas.
+
+## Day 12: Security & Performance Testing
+
+### Step 1: Ownership Security Audit (Pengetesan Celah Data)
+
+Tujuannya adalah memastikan Strict Isolation. User A tidak boleh bisa melihat summary atau breakdown User B, meskipun mereka tahu ID resource-nya.
+
+Langkah Verifikasi:
+
+1. Uji Token Validasi: Pastikan semua endpoint di /api/v1/dashboard/* menggunakan middleware Auth yang menyuntikkan user_id ke dalam context.
+2. Audit Query SQL: Periksa kembali semua query di internal/repository/dashboard.go atau repository terkait.
+   - Checklist: Apakah semua query SELECT memiliki klausa WHERE user_id = $1?
+   - Anti-Pattern: Hindari query yang menerima userID langsung dari query parameter ?user_id=... tanpa divalidasi terhadap session token.
+3. Manual Pengetesan (Postman):
+   - Login sebagai User A → Ambil Token A.
+   - Login sebagai User B → Ambil Token B.
+   - Coba panggil endpoint dashboard menggunakan Token A, tetapi coba manipulasi parameter (jika ada) untuk meminta data User B. Hasilnya harus tetap data User A atau 403 Forbidden.
+
+———
+
+### Step 2: Query Optimization (Analisis Performa DB)
+
+Query agregasi (SUM, GROUP BY) bisa menjadi sangat lambat jika tabel transactions memiliki jutaan baris.
+
+Langkah Analisis:
+
+1. Gunakan EXPLAIN ANALYZE:
+   Jalankan query dashboard langsung di database (psql/pgAdmin) dengan prefix EXPLAIN ANALYZE.
+
+   EXPLAIN ANALYZE 
+SELECT SUM(amount) FROM transactions 
+WHERE user_id = 'some-uuid' 
+AND EXTRACT(MONTH FROM transaction_date) = 11 
+AND EXTRACT(YEAR FROM transaction_date) = 2026;
+2. Identifikasi "Seq Scan":
+   Jika hasil EXPLAIN menunjukkan "Seq Scan" (Sequential Scan), artinya database membaca seluruh tabel dari awal sampai akhir. Ini adalah tanda bahaya untuk performa.
+
+Langkah Perbaikan (Indexing):
+Jika terjadi Seq Scan, tambahkan Composite Index. Index ini mempercepat filter berdasarkan user dan tanggal secara bersamaan.
+
+-- Tambahkan migration baru untuk index ini
+CREATE INDEX idx_transactions_user_date ON transactions (user_id, transaction_date);
+
+Setelah menambahkan index, jalankan kembali EXPLAIN ANALYZE dan pastikan statusnya berubah menjadi "Index Scan".
+
+———
+
+### Step 3: Basic Load Testing (Stress Test)
+
+Memastikan endpoint tetap responsif saat user memiliki riwayat transaksi yang panjang (misal: user aktif selama 2 tahun dengan 10 transaksi per hari).
+
+Langkah Eksekusi:
+
+1. Generate Data Dummy:
+   Buat script sederhana atau gunakan SQL untuk memasukkan 1.000 - 5.000 transaksi dummy untuk satu user.
+
+   -- Contoh pseudo-SQL untuk generate data
+INSERT INTO transactions (user_id, account_id, category_id, amount, type, transaction_date)
+SELECT 'user-uuid', 'acc-uuid', 'cat-uuid', 1000, 'expense', 
+       CURRENT_DATE - (n || ' days')::interval
+FROM generate_series(1, 5000) n;
+2. Ukur Latency:
+   Panggil endpoint /api/v1/dashboard/summary dan /api/v1/dashboard/breakdown berulang kali menggunakan Postman atau tool seperti k6 atau hey.
+3. Target:
+   Respons time harus < 200ms. Jika > 500ms, kembali ke Step 2 untuk optimasi query.
+
+———
+
+### Step 4: Financial Data Integrity Final Check
+
+Melakukan audit terakhir terhadap standar data finansial yang ditetapkan di AGENTS.md.
+
+Checklist Audit:
+
+- [ ] No Floating Point: Periksa kembali internal/model/dashboard.go. Pastikan TotalBalance, TotalIncome, dan TotalExpense menggunakan int64. (Floating point hanya boleh ada di Percentage untuk keperluan display).
+- [ ] Zero-Value Handling: Pastikan jika user baru (tidak ada transaksi), API mengembalikan angka 0, bukan null atau error 500. (Gunakan COALESCE(SUM(...), 0) di SQL).
+- [ ] Timezone Consistency: Pastikan filter tanggal menggunakan UTC atau timezone yang konsisten agar tidak ada transaksi yang "bergeser" bulan karena perbedaan waktu.
+
+———
+
+### 🏁 Ringkasan Output Day 12
+
+Setelah menyelesaikan Day 12, Anda harus bisa melaporkan:
+
+1. Security: "Verified: User A cannot access User B's dashboard data."
+2. Performance: "Verified: Dashboard queries use Index Scan. Latency for 5k records is X ms."
+3. Integrity: "Verified: No floating point used for currency calculations."
