@@ -108,6 +108,7 @@ func main() {
 
 			r.Post("/budgets", budgetHdl.CreateOrUpdate)
 			r.Get("/budgets", budgetHdl.List)
+			r.Get("/budgets/status", budgetHdl.GetStatus)
 		})
 	})
 

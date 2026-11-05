@@ -388,7 +388,9 @@ func (h *BudgetHandler) GetStatus(c *gin.Context) {
 
 Tambahkan route baru ini di router Anda:
 
+```go
 v1.GET("/budgets/status", budgetHdl.GetStatus)
+```
 
 ### Checklist Verifikasi Manual:
 
