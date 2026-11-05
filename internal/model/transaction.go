@@ -23,3 +23,24 @@ type CreateTransactionRequest struct {
 	Description string `json:"description"`
 	Date        string `json:"date"` // Format YYY-MM-DD
 }
+
+type TransactionListRequest struct {
+	StartDate string `json:"start_date"`
+	EndDate   string `json:"end_date"`
+	Type      string `json:"type"`
+	AccountID string `json:"account_id"`
+	Page      int    `json:"page"`
+	Limit     int    `json:"limit"`
+}
+
+type TransactionResponse struct {
+	Transaction
+	AccountName  string `json:"account_name"`
+	CategoryName string `json:"category_name"`
+}
+
+type PaginationMeta struct {
+	Total int64 `json:"total"`
+	Page  int   `json:"page"`
+	Limit int   `json:"limit"`
+}
