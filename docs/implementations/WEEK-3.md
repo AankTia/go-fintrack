@@ -178,8 +178,9 @@ type CreateTransactionRequest struct {
 
 ### 3. Transaction Repository (internal/repository/transaction_repository.go)
 
-Implementasikan interface untuk akses DB. Perhatikan penggunaan pgx.Tx agar bisa mendukung transaksi atomik dari layer service.
+Implementasikan interface untuk akses DB. Perhatikan penggunaan `pgx.Tx` agar bisa mendukung transaksi atomik dari layer service.
 
+```go
 package repository
 
 import (
@@ -230,6 +231,7 @@ func (r *transactionRepository) GetById(ctx context.Context, id string, userID s
 	}
 	return &t, nil
 }
+```
 
 ———
 
