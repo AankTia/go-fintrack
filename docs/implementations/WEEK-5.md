@@ -309,10 +309,13 @@ Di sinilah "otak" perhitungannya berada. Kita akan menggabungkan data limit budg
 
 Tambahkan ke Interface BudgetService:
 
+```go
 GetBudgetStatus(ctx context.Context, userID uuid.UUID, period string) ([]model.BudgetStatus, error)
+```
 
 Tambahkan Implementasi:
 
+```go
 func (s *budgetService) GetBudgetStatus(ctx context.Context, userID uuid.UUID, period string) ([]model.BudgetStatus, error) {
 	// 1. Ambil semua budget yang diset user untuk periode ini
 	budgets, err := s.repo.GetByPeriod(ctx, userID, period)
@@ -350,6 +353,7 @@ func (s *budgetService) GetBudgetStatus(ctx context.Context, userID uuid.UUID, p
 	return statuses, nil
 }
 
+```
 Catatan: Untuk CategoryName, idealnya Anda menginject CategoryRepository ke dalam BudgetService untuk mengambil nama kategori berdasarkan ID.
 
 ———
