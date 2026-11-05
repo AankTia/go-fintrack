@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
-	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/AankTia/go-fintrack/internal/model"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type AccountRepository interface {
@@ -12,17 +12,18 @@ type AccountRepository interface {
 	GetByUserId(ctx context.Context, userID string) ([]*model.Account, error)
 	UpdateBalance(ctx context.Context, id string, amount int64, userID string) error
 	Delete(ctx context.Context, id string, userID string) error
+	GetTotalBalance(ctx context.Context, userID int64) (int64, error)
 }
 
 // Definisikan struct yang menyimpan dependency (database connection)
 // Kita beri nama kecil (unexported) agar hanya bisa diinisialisasi melalui NewAccountRepositor
 type accountRepository struct {
-	db  *pgxpool.Pool
+	db *pgxpool.Pool
 }
 
 // Fungsi ini mengembalikan tipe interface AccountRepository, bukan tipe struct accountRepository.
 // Ini adalah praktek Dependency Injection agar layer atas tidak terikat pada implementasi konkret.
-func NewAccountRepository(db  *pgxpool.Pool) AccountRepository {
+func NewAccountRepository(db *pgxpool.Pool) AccountRepository {
 	return &accountRepository{
 		db: db,
 	}
@@ -56,7 +57,7 @@ func (r *accountRepository) GetById(ctx context.Context, id string, userID strin
 	err := row.Scan(&acc.ID, &acc.UserID, &acc.Name, &acc.Type, &acc.Balance, &acc.Currency, &acc.CreatedAt, &acc.UpdatedAt)
 
 	if err != nil {
-		return nil, err  // Akan return sql.ErrNoRows jika data tidak ditemukan
+		return nil, err // Akan return sql.ErrNoRows jika data tidak ditemukan
 	}
 
 	return &acc, nil
@@ -65,7 +66,7 @@ func (r *accountRepository) GetById(ctx context.Context, id string, userID strin
 func (r *accountRepository) GetByUserId(ctx context.Context, userID string) ([]*model.Account, error) {
 	query := `SELECT id, user_id, name, type, balance, currency, created_at, updated_at 
 	          FROM accounts WHERE user_id = $1`
-	
+
 	rows, err := r.db.Query(ctx, query, userID)
 	if err != nil {
 		return nil, err
@@ -89,9 +90,9 @@ func (r *accountRepository) UpdateBalance(ctx context.Context, id string, amount
 	// Lagi-lagi, tambahkan filter user_id untuk keamanan
 	query := `UPDATE accounts SET balance = balance + $1, updated_at = NOW() 
 	          WHERE id = $2 AND user_id = $3`
-	
+
 	_, err := r.db.Exec(ctx, query, amount, id, userId)
-	return  err
+	return err
 }
 
 func (r *accountRepository) Delete(ctx context.Context, id string, userID string) error {
@@ -104,4 +105,12 @@ func (r *accountRepository) Delete(ctx context.Context, id string, userID string
 	defer rows.Close() // WAJIB tutup rows untuk mencegah memory leak
 
 	return err
+}
+
+func (r *accountRepository) GetTotalBalance(ctx context.Context, userID int64) (int64, error) {
+	var total int64
+	query := `SELECT COALESCE(SUM(balance), 0) FROM accounts WHERE user_id = $1`
+
+	err := r.db.QueryRow(ctx, query, userID).Scan(&total)
+	return total, err
 }

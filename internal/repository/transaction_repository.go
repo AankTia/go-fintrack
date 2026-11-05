@@ -15,6 +15,7 @@ type TransactionRepository interface {
 	List(ctx context.Context, userID string, filter model.TransactionListRequest, offset, limit int) ([]*model.TransactionResponse, int64, error)
 	Update(ctx context.Context, tx pgx.Tx, t *model.Transaction) error
 	Delete(ctx context.Context, tx pgx.Tx, id string) error
+	GetMonthlySummary(ctx context.Context, userID int64, month int, year int) (income int64, expense int64, err error)
 }
 
 type transactionRepository struct {
@@ -117,4 +118,21 @@ func (r *transactionRepository) Delete(ctx context.Context, tx pgx.Tx, id string
 	query := `DELETE FROM transactions WHERE id=$1`
 	_, err := tx.Exec(ctx, query, id)
 	return err
+}
+
+func (r *transactionRepository) GetMonthlySummary(ctx context.Context, userID int64, month int, year int) (income int64, expense int64, err error) {
+	query := `
+		SELECT 
+			SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END),
+			SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END)
+		FROM transactions 
+		WHERE user_id = $1 
+		AND EXTRACT(MONTH FROM transaction_date) = $2 
+		AND EXTRACT(YEAR FROM transaction_date) = $3`
+
+	err = r.db.QueryRow(ctx, query, userID, month, year).Scan(&income, &expense)
+	if err != nil {
+		return 0, 0, err
+	}
+	return income, expense, nil
 }

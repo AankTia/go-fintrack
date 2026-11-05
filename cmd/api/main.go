@@ -58,6 +58,10 @@ func main() {
 	transactionSvc := service.NewTransactionService(platform.DB, transactionRepo, accountRepo, categoryRepo)
 	transactionHdl := handler.NewTransactionHandler(transactionSvc)
 
+	dashboardRepo := repository.NewDashboardRepository(platform.DB)
+	dashboardSvc := service.NewDashboardService(dashboardRepo)
+	dashboardHdl := handler.NewDashboardHandler(dashboardSvc)
+
 	// ---------------------------------------------------------
 	// ROUTING
 	// ---------------------------------------------------------
@@ -95,6 +99,8 @@ func main() {
 			r.Post("/transactions", transactionHdl.Create)
 			r.Patch("/transactions/{id}", transactionHdl.Update)
 			r.Delete("/transactions/{id}", transactionHdl.Delete)
+
+			r.Get("/dashboard/summary", dashboardHdl.GetSummary)
 		})
 	})
 
