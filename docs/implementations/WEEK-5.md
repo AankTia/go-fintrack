@@ -67,8 +67,9 @@ type CreateBudgetRequest struct {
 
 ### 3. Repository Layer (internal/repository/budget_repository.go)
 
-Buat file baru di internal/repository/budget_repository.go.
+Buat file baru di `internal/repository/budget_repository.go`.
 
+```go
 package repository
 
 import (
@@ -130,6 +131,7 @@ func (r *budgetRepository) Delete(ctx context.Context, userID uuid.UUID, budgetI
 	_, err := r.db.ExecContext(ctx, query, budgetID, userID)
 	return err
 }
+```
 
 ———
 
