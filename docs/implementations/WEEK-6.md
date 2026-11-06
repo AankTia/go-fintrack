@@ -737,8 +737,9 @@ export function BudgetList() {
 
 #### 2. Budget Management Modal
 
-Buat file /frontend/components/budget/manage-budget-modal.tsx:
+Buat file `/frontend/components/budget/manage-budget-modal.tsx`:
 
+```js
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -796,6 +797,7 @@ export function ManageBudgetModal() {
     </Dialog>
   );
 }
+```
 
 ———
 
