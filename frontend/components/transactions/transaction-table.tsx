@@ -38,7 +38,7 @@ export function TransactionTable() {
               <TableCell>
                 {new Date(tx.date).toLocaleDateString("id-ID")}
               </TableCell>
-              <TableCell>{tx.category.name}</TableCell>
+              <TableCell>{tx.category?.name || "Tanpa Kategori"}</TableCell>
               <TableCell>{tx.description}</TableCell>
               <TableCell
                 className={`text-right font-medium ${tx.type === "expense" ? "text-red-500" : "text-green-500"}`}

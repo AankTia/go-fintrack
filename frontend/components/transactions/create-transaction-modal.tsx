@@ -163,7 +163,7 @@ export function CreateTransactionModal() {
                   {...field}
                   id="amount"
                   type="number"
-                  value={field.value ?? ""}
+                  value={field.value || ""}
                   onChange={(e) => {
                     const val = e.target.value;
                     // Kirim null atau undefined jika kosong agar Zod bisa menangkap error .min(1)
