@@ -26,8 +26,9 @@ func NewCategoryRepository(db  *pgxpool.Pool) CategoryRepository {
 
 func (r *categoryRepository) Create(ctx context.Context, category *model.Category) error {
 	// Gunakan query parameterized ($1, $2, dst) untuk mencegah SQL Injection
+	// FIX: 'VALUE' -> 'VALUES'
 	query := `INSERT INTO categories (user_id, name, type, icon)
-						VALUE ($1, $2, $3, $4)
+						VALUES ($1, $2, $3, $4)
 						RETURNING id`
 
 	// ExecQuery digunakan karena kita butuh return value (id)
@@ -66,11 +67,11 @@ func (r *categoryRepository) GetByUserId(ctx context.Context, userID string) ([]
 func (r *categoryRepository) Delete(ctx context.Context, id string, userID string) error {
 	query := `DELETE FROM categories WHERE id = $1 AND user_id = $2`
 
-	rows, err := r.db.Query(ctx, query, id, userID)
+	// FIX: Gunakan Exec untuk operasi DELETE, bukan Query
+	_, err := r.db.Exec(ctx, query, id, userID)
 	if err != nil {
 		return err
 	}
-	defer rows.Close() // WAJIB tutup rows untuk mencegah memory leak
 
-	return err
+	return nil
 }

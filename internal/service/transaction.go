@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -9,6 +10,10 @@ import (
 	"github.com/AankTia/go-fintrack/internal/repository"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
+)
+
+var (
+	ErrResourceNotFound = errors.New("resource not found")
 )
 
 type TransactionService struct {
@@ -37,7 +42,7 @@ func (s *TransactionService) CreateTransaction(ctx context.Context, userID strin
 	// ownership check
 	_, err = s.accountRepo.GetById(ctx, req.AccountId, userID)
 	if err != nil {
-		return nil, fmt.Errorf("account not found or unauthorized")
+		return nil, ErrResourceNotFound
 	}
 
 	// Start DB transaction
@@ -68,10 +73,6 @@ func (s *TransactionService) CreateTransaction(ctx context.Context, userID strin
 		balanceChange = -req.Amount
 	}
 
-	// Note: UpdateBalance di repository harus bisa menerima tx atau menggunakan logic update relatif
-	// Karena current AccountRepository.UpdateBalance menggunakan r.db, kita perlu modifikasi repo
-	// atau membuat method baru yang menerima pgx.Tx.
-	// Untuk sementara, kita asumsikan ada method UpdateBalanceTx di repository.
 	if err := s.updateBalanceWithTx(ctx, tx, req.AccountId, balanceChange, userID); err != nil {
 		return nil, fmt.Errorf("failed to update balance: %v", err)
 	}
@@ -85,7 +86,8 @@ func (s *TransactionService) CreateTransaction(ctx context.Context, userID strin
 }
 
 func (s *TransactionService) updateBalanceWithTx(ctx context.Context, tx pgx.Tx, accountID string, amount int64, userID string) error {
-	query := `UPDATE accounts SET balance = balance + $1, update_at = NOW() WHERE id = $2 AND user_id = $3`
+	// FIX: update_at -> updated_at
+	query := `UPDATE accounts SET balance = balance + $1, updated_at = NOW() WHERE id = $2 AND user_id = $3`
 
 	_, err := tx.Exec(ctx, query, amount, accountID, userID)
 	return err
@@ -115,7 +117,7 @@ func (s *TransactionService) UpdateTransaction(ctx context.Context, userID strin
 	// 1. Get old transaction
 	oldTx, err := s.txRepo.GetById(ctx, transactionID, userID)
 	if err != nil {
-		return nil, fmt.Errorf("transaction not found")
+		return nil, ErrResourceNotFound
 	}
 
 	tx, err := s.db.Begin(ctx)
@@ -158,7 +160,7 @@ func (s *TransactionService) UpdateTransaction(ctx context.Context, userID strin
 
 func (s *TransactionService) DeleteTransaction(ctx context.Context, userID string, transactionID string) error {
 	oldTx, err := s.txRepo.GetById(ctx, transactionID, userID)
-	if err != nil { return fmt.Errorf("transaction not found") }
+	if err != nil { return ErrResourceNotFound }
 
 	tx, err := s.db.Begin(ctx)
 	if err != nil { return err }

@@ -3,6 +3,7 @@ import { CreateAccountModal } from "@/components/accounts/create-account-modal";
 import { TransactionTable } from "@/components/transactions/transaction-table";
 import { CreateTransactionModal } from "@/components/transactions/create-transaction-modal";
 import { ManageBudgetModal } from "@/components/budget/manage-budget-modal";
+import { CreateCategoryModal } from "@/components/categories/create-category-modal";
 import { KPICards } from "@/components/dashboard/kpi-cards";
 import { CashFlowChart } from "@/components/dashboard/cashflow-chart";
 import { BudgetList } from "@/components/budget/budget-list";
@@ -16,6 +17,7 @@ export default function DashboardPage() {
         </h1>
         <div className="flex gap-2">
           <CreateAccountModal />
+          <CreateCategoryModal />
           <CreateTransactionModal />
           <ManageBudgetModal />
         </div>
