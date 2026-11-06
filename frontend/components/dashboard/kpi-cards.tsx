@@ -31,25 +31,25 @@ export function KPICards() {
   const stats = [
     {
       title: "Total Balance",
-      value: summary.total_balance,
+      value: summary?.total_balance || 0,
       icon: Wallet,
       color: "text-blue-600",
     },
     {
       title: "Monthly Income",
-      value: summary.monthly_income,
+      value: summary?.monthly_income || 0,
       icon: ArrowUpCircle,
       color: "text-green-600",
     },
     {
       title: "Monthly Expense",
-      value: summary.monthly_expense,
+      value: summary?.monthly_expense || 0,
       icon: ArrowDownCircle,
       color: "text-red-600",
     },
     {
       title: "Net Cash Flow",
-      value: summary.net_cash_flow,
+      value: summary?.net_cash_flow || 0,
       icon: TrendingUp,
       color: "text-purple-600",
     },
