@@ -40,7 +40,7 @@ go.work.sum
 .env
 # .env.*
 *.env
-*.json
+# *.json
 *.yaml
 # *.yml
 

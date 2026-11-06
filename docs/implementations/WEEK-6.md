@@ -586,11 +586,13 @@ Untuk menyelesaikan Day 18, kita akan fokus pada visualisasi data menggunakan Re
 
 ### 🛠️ Langkah 1: Install Dependencies Visualisasi
 
-Jalankan perintah ini di folder /frontend:
+Jalankan perintah ini di folder `/frontend`:
 
+```bash
 npm install recharts
 # Tambahkan komponen shadcn untuk Progress bar
-npx shadcn-ui@latest add progress
+npx shadcn@latest add progress
+```
 
 ———
 
