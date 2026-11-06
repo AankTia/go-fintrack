@@ -598,12 +598,13 @@ npx shadcn@latest add progress
 
 ### 🛠️ Langkah 2: Dashboard Summary & Charts
 
-Kita akan membuat komponen visualisasi yang mengambil data dari /api/v1/dashboard.
+Kita akan membuat komponen visualisasi yang mengambil data dari `/api/v1/dashboard`.
 
 #### 1. KPI Cards Component
 
-Buat file /frontend/components/dashboard/kpi-cards.tsx:
+Buat file `/frontend/components/dashboard/kpi-cards.tsx`:
 
+```js
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
@@ -643,6 +644,7 @@ export function KPICards() {
     </div>
   );
 }
+```
 
 #### 2. Cash Flow Chart Component
 
