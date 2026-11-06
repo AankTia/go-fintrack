@@ -1,18 +1,11 @@
 "use client";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -61,64 +54,72 @@ export function ManageBudgetModal() {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">+ Set Budget</Button>
-      </DialogTrigger>
+      <DialogTrigger render={<Button variant="outline">+ Set Budget</Button>} />
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Atur Budget Bulanan</DialogTitle>
         </DialogHeader>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit((v) => mutation.mutate(v))}
-            className="space-y-4"
+
+        <form
+          onSubmit={form.handleSubmit((v) => mutation.mutate(v))}
+          className="space-y-4"
+        >
+          <Controller
+            control={form.control}
+            name="category_id"
+            render={({ field, fieldState }) => (
+              <Field invalid={fieldState.invalid}>
+                <FieldLabel>Kategori</FieldLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih Kategory" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories?.map((a: any) => (
+                      <SelectItem key={a.id} value={a.id}>
+                        {a.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FieldError>{fieldState.error?.message}</FieldError>
+              </Field>
+            )}
+          />
+
+          <Controller
+            control={form.control}
+            name="amount"
+            render={({ field, fieldState }) => (
+              <Field invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="amount">Nominal</FieldLabel>
+                <Input
+                  {...field}
+                  id="amount"
+                  type="number"
+                  value={field.value ?? ""}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    // Kirim null atau undefined jika kosong agar Zod bisa menangkap error .min(1)
+                    field.onChange(val === "" ? "" : val);
+                  }}
+                />
+                <FieldError>{fieldState.error?.message}</FieldError>
+              </Field>
+            )}
+            />
+
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={mutation.isPending}
           >
-            <FormField
-              control={form.control}
-              name="category_id"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Kategori</FormLabel>
-                  <Select onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Pilih Kategori" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {categories?.map((c: any) => (
-                        <SelectItem key={c.id} value={c.id}>
-                          {c.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="amount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Limit Nominal</FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={mutation.isPending}
-            >
-              Simpan Budget
-            </Button>
-          </form>
-        </Form>
+            Simpan Budget
+          </Button>
+        </form>
       </DialogContent>
     </Dialog>
   );
