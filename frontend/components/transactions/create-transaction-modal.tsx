@@ -78,43 +78,42 @@ export function CreateTransactionModal() {
           onSubmit={form.handleSubmit((v) => mutation.mutate(v))}
           className="space-y-4"
         >
-          {/* <FormField
+          <Controller
             control={form.control}
             name="type"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Tipe</FormLabel>
+            render={({ field, fieldState }) => (
+              <Field invalid={fieldState.invalid}>
+                <FieldLabel>Tipe</FieldLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                  </FormControl>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="income">Pemasukan</SelectItem>
                     <SelectItem value="expense">Pengeluaran</SelectItem>
                   </SelectContent>
                 </Select>
-                <FormMessage />
-              </FormItem>
+                <FieldError>{fieldState.error?.message}</FieldError>
+              </Field>
             )}
-          /> */}
+          />
 
-          {/* <FormField
+          <Controller
             control={form.control}
             name="account_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Akun</FormLabel>
-                <Select onValueChange={field.onChange}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Pilih Akun" />
-                    </SelectTrigger>
-                  </FormControl>
+            render={({ field, fieldState }) => (
+              <Field invalid={fieldState.invalid}>
+                <FieldLabel>Akun</FieldLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih Akun" />
+                  </SelectTrigger>
                   <SelectContent>
                     {accounts?.map((a: any) => (
                       <SelectItem key={a.id} value={a.id}>
@@ -123,35 +122,36 @@ export function CreateTransactionModal() {
                     ))}
                   </SelectContent>
                 </Select>
-                <FormMessage />
-              </FormItem>
+                <FieldError>{fieldState.error?.message}</FieldError>
+              </Field>
             )}
-          /> */}
+          />
 
-          {/* <FormField
+          <Controller
             control={form.control}
             name="category_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Kategori</FormLabel>
-                <Select onValueChange={field.onChange}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Pilih Kategori" />
-                    </SelectTrigger>
-                  </FormControl>
+            render={({ field, fieldState }) => (
+              <Field invalid={fieldState.invalid}>
+                <FieldLabel>Kategori</FieldLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih Kategori" />
+                  </SelectTrigger>
                   <SelectContent>
-                    {categories?.map((c: any) => (
-                      <SelectItem key={c.id} value={c.id}>
-                        {c.name}
+                    {categories?.map((a: any) => (
+                      <SelectItem key={a.id} value={a.id}>
+                        {a.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-                <FormMessage />
-              </FormItem>
+                <FieldError>{fieldState.error?.message}</FieldError>
+              </Field>
             )}
-          /> */}
+          />
 
           <Controller
             control={form.control}
@@ -159,7 +159,17 @@ export function CreateTransactionModal() {
             render={({ field, fieldState }) => (
               <Field invalid={fieldState.invalid}>
                 <FieldLabel htmlFor="amount">Nominal</FieldLabel>
-                <Input {...field} id="amount" type="number" value={0} />
+                <Input
+                  {...field}
+                  id="amount"
+                  type="number"
+                  value={field.value ?? ""}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    // Kirim null atau undefined jika kosong agar Zod bisa menangkap error .min(1)
+                    field.onChange(val === "" ? "" : val);
+                  }}
+                />
                 <FieldError>{fieldState.error?.message}</FieldError>
               </Field>
             )}
