@@ -98,3 +98,19 @@ func (h *DashboardHandler) GetBreakdown(w http.ResponseWriter, r *http.Request) 
 
 	respondWithJSON(w, http.StatusOK, breakdown)
 }
+
+func (h *DashboardHandler) GetHistory(w http.ResponseWriter, r *http.Request) {
+    userID, ok := r.Context().Value("user_id").(string)
+    if !ok {
+        respondWithError(w, http.StatusUnauthorized, "unauthorized")
+        return
+    }
+
+    history, err := h.service.GetHistory(r.Context(), userID)
+    if err != nil {
+        respondWithError(w, http.StatusInternalServerError, "internal server error")
+        return
+    }
+
+    respondWithJSON(w, http.StatusOK, history)
+}

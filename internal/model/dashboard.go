@@ -17,3 +17,9 @@ type CategoryBreakdown struct {
 	TotalAmount  int64   `json:"total_amount"`
 	Percentage   float64 `json:"percentage"` // Persentase terhadap total pengeluaran bulanan
 }
+
+type CashflowHistory struct {
+	Month  string `json:"month"`  // Format: "Jan", "Feb", dll
+	Income int64  `json:"income"`
+	Expense int64 `json:"expense"`
+}

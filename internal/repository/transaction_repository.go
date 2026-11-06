@@ -17,6 +17,7 @@ type TransactionRepository interface {
 	Delete(ctx context.Context, tx pgx.Tx, id string) error
 	GetMonthlySummary(ctx context.Context, userID string, month int, year int) (income int64, expense int64, err error)
 	GetExpenseBreakdown(ctx context.Context, userID string, month int, year int) ([]*model.CategoryBreakdown, error)
+	GetCashflowHistory(ctx context.Context, userID string) ([]*model.CashflowHistory, error)
 }
 
 type transactionRepository struct {
@@ -166,4 +167,36 @@ func (r *transactionRepository) GetExpenseBreakdown(ctx context.Context, userID 
 	}
 
 	return breakdown, nil
+}
+
+func (r *transactionRepository) GetCashflowHistory(ctx context.Context, userID string) ([]*model.CashflowHistory, error) {
+    // Query untuk mengambil total income dan expense per bulan dalam 6 bulan terakhir
+    // Menggunakan COALESCE untuk menangani bulan yang tidak ada transaksi
+    query := `
+        SELECT 
+            to_char(transaction_date, 'Mon') as month, 
+            SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as total_income,
+            SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as total_expense
+        FROM transactions 
+        WHERE user_id = $1 
+        AND transaction_date >= date_trunc('month', current_date) - interval '6 months'
+        GROUP BY date_trunc('month', transaction_date), to_char(transaction_date, 'Mon')
+        ORDER BY date_trunc('month', transaction_date) ASC
+    `
+
+    rows, err := r.db.Query(ctx, query, userID)
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close()
+
+    var history []*model.CashflowHistory
+    for rows.Next() {
+        var h model.CashflowHistory
+        if err := rows.Scan(&h.Month, &h.Income, &h.Expense); err != nil {
+            return nil, err
+        }
+        history = append(history, &h)
+    }
+    return history, nil
 }

@@ -106,6 +106,7 @@ func main() {
 
 			r.Get("/dashboard/summary", dashboardHdl.GetSummary)
 			r.Get("/dashboard/breakdown", dashboardHdl.GetBreakdown)
+			r.Get("/dashboard/history", dashboardHdl.GetHistory)
 
 			r.Post("/budgets", budgetHdl.CreateOrUpdate)
 			r.Get("/budgets", budgetHdl.List)

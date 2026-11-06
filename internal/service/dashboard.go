@@ -12,6 +12,7 @@ import (
 type DashboardService interface {
 	GetSummary(ctx context.Context, userID string, mont int, year int) (*model.DashboardSummary, error)
 	GetBreakdown(ctx context.Context, userID string, month int, year int) ([]*model.CategoryBreakdown, error)
+	GetHistory(ctx context.Context, userID string) ([]*model.CashflowHistory, error)
 }
 
 type dashboardService struct {
@@ -74,4 +75,8 @@ func (s *dashboardService) GetBreakdown(ctx context.Context, userID string, mont
 	}
 
 	return breakdowns, nil
+}
+
+func (s *dashboardService) GetHistory(ctx context.Context, userID string) ([]*model.CashflowHistory, error) {
+    return s.transactionRepo.GetCashflowHistory(ctx, userID)
 }
