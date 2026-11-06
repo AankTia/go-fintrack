@@ -648,8 +648,9 @@ export function KPICards() {
 
 #### 2. Cash Flow Chart Component
 
-Buat file /frontend/components/dashboard/cashflow-chart.tsx:
+Buat file `/frontend/components/dashboard/cashflow-chart.tsx`:
 
+```js
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
@@ -681,6 +682,7 @@ export function CashFlowChart() {
     </Card>
   );
 }
+```
 
 ———
 
