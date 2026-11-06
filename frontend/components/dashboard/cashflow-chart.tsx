@@ -14,10 +14,21 @@ import {
 } from "recharts";
 
 export function CashFlowChart() {
-  const { data: history } = useQuery({
+  const { data: history, isLoading } = useQuery({
     queryKey: ["dashboard-history"],
     queryFn: async () => (await api.get("/dashboard/history")).data,
   });
+
+  if (isLoading) {
+    return (
+      <Card className="col-span-1 md:col-span-2">
+        <CardHeader><CardTitle>Cash Flow Tren</CardTitle></CardHeader>
+        <CardContent className="h-[300px] flex items-center justify-center">
+          <p>Loading chart...</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="col-span-1 md:col-span-2">
@@ -26,7 +37,7 @@ export function CashFlowChart() {
       </CardHeader>
       <CardContent className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={history}>
+          <BarChart data={history ?? []}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="month" />
             <YAxis />
