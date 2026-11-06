@@ -124,8 +124,8 @@ func (r *transactionRepository) Delete(ctx context.Context, tx pgx.Tx, id string
 func (r *transactionRepository) GetMonthlySummary(ctx context.Context, userID string, month int, year int) (income int64, expense int64, err error) {
 	query := `
 		SELECT 
-			SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END),
-			SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END)
+			COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0),
+    	COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0)
 		FROM transactions 
 		WHERE user_id = $1 
 		AND EXTRACT(MONTH FROM transaction_date) = $2 
@@ -140,7 +140,7 @@ func (r *transactionRepository) GetMonthlySummary(ctx context.Context, userID st
 
 func (r *transactionRepository) GetExpenseBreakdown(ctx context.Context, userID string, month int, year int) ([]*model.CategoryBreakdown, error) {
 	query := `SELECT
-							c.id, c.name, SUM(t.ammount) as total
+							c.id, c.name, SUM(t.amount) as total
 						FROM transactions t
 						JOIN categories c ON t.category_id = c.id
 						WHERE t.user_id = $1
@@ -166,4 +166,4 @@ func (r *transactionRepository) GetExpenseBreakdown(ctx context.Context, userID 
 	}
 
 	return breakdown, nil
-} 
+}

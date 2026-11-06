@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/AankTia/go-fintrack/internal/model"
@@ -26,15 +27,21 @@ func NewDashboardService(accRepo repository.AccountRepository, txRepo repository
 }
 
 func (s *dashboardService) GetSummary(ctx context.Context, userID string, month int, year int) (*model.DashboardSummary, error) {
+	fmt.Println("DEBUG: Testing accountRepo.GetTotalBalance...")
 	balance, err := s.accountRepo.GetTotalBalance(ctx, userID)
 	if err != nil {
+		fmt.Printf("DEBUG: accountRepo ERROR: %v\n", err)
 		return nil, err
 	}
+	fmt.Println("DEBUG: accountRepo SUCCESS")
 
+	fmt.Printf("DEBUG: Calling transactionRepo.GetMonthlySummary with userID: %s, month: %d, year: %d\n", userID, month, year)
 	income, expense, err := s.transactionRepo.GetMonthlySummary(ctx, userID, month, year)
 	if err != nil {
+		fmt.Printf("DEBUG: transactionRepo ERROR: %v\n", err)
 		return nil, err
 	}
+	fmt.Println("DEBUG: transactionRepo SUCCESS")
 
 	return &model.DashboardSummary{
 		TotalBalance: balance,
