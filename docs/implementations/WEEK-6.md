@@ -692,8 +692,9 @@ Kita akan membuat list progress bar untuk setiap kategori budget.
 
 #### 1. Budget Progress List
 
-Buat file /frontend/components/budget/budget-list.tsx:
+Buat file `/frontend/components/budget/budget-list.tsx`:
 
+```js
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
@@ -732,6 +733,7 @@ export function BudgetList() {
     </div>
   );
 }
+```
 
 #### 2. Budget Management Modal
 
