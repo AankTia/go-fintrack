@@ -803,8 +803,9 @@ export function ManageBudgetModal() {
 
 ### 🛠️ Langkah 4: Integrasi ke Dashboard Page
 
-Sekarang kita update /frontend/app/dashboard/page.tsx untuk menampilkan semua visualisasi ini.
+Sekarang kita update `/frontend/app/dashboard/page.tsx` untuk menampilkan semua visualisasi ini.
 
+```js
 import { KPICards } from "@/components/dashboard/kpi-cards";
 import { CashFlowChart } from "@/components/dashboard/cashflow-chart";
 import { BudgetList } from "@/components/budget/budget-list";
@@ -852,6 +853,7 @@ export default function DashboardPage() {
     </div>
   );
 }
+```
 
 ### 🏁 Verifikasi Akhir (Day 18)
 
